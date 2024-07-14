@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockermule-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockermule
+  template:
+    metadata:
+      labels:
+        app: dockermule
+    spec:
+      containers:
+      - name: dockermule
+        image: suprabhatcs/dockermule:latest
+        ports:
+        - containerPort: 8082
+      imagePullSecrets:
+      - name: regcred
