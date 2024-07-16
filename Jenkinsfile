@@ -28,8 +28,9 @@ pipeline {
     stage('Build image') {
       steps{
         script {
+	  println("Docker image build started")
           dockerImage = docker.build dockermule2
-		  println("Docker build successful")
+	   println("Docker build successful")
         }
       }
     }
