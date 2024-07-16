@@ -29,7 +29,7 @@ pipeline {
       steps{
         script {
 	  println("Docker image build started")
-	 bat 'docker build -t dockermule2 .'
+	 bat 'docker build -t suprabhatcs/dockermule2 .'
           //dockerImage = docker.build dockermule
 	   println("Docker build successful")
         }
