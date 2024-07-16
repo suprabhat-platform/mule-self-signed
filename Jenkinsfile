@@ -12,6 +12,14 @@ pipeline {
     stage('Checkout Source') {
       steps {
         git 'https://github.com/suprabhat-platform/mule-self-signed.git'
+		println("Checkout successful")
+      }
+    }
+	
+	stage('Build application') {
+      steps {
+        mvn clean package
+		println("Application build successful")
       }
     }
 
@@ -19,6 +27,7 @@ pipeline {
       steps{
         script {
           dockerImage = docker.build dockermule2
+		  println("Docker build successful")
         }
       }
     }
@@ -31,6 +40,7 @@ pipeline {
         script {
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
             dockerImage.push("latest")
+			println("Docker image push successfull")
           }
         }
       }
@@ -40,6 +50,7 @@ pipeline {
       steps {
         script {
           kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+		  println("Deployment successfull")
         }
       }
     }
