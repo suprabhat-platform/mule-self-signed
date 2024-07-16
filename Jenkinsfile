@@ -2,7 +2,7 @@ pipeline {
 
   environment {
     dockerimagename = "suprabhatcs/dockermule2"
-    dockerImage = "suprabhatcs/dockermule2:latest"
+    dockerImage = ""
   }
 
   agent any
@@ -43,7 +43,8 @@ pipeline {
       steps{
         script {
 	  println("Image push started")	
-	   docker.withRegistry('https://index.docker.io/v1/', registryCredential) 	
+	   docker.withRegistry('https://index.docker.io/v1/', registryCredential) 
+	   def dockerImage = docker.image("dockermule2")
         //docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
 	   {
            dockerImage.push("latest")
