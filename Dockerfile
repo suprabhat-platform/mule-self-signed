@@ -1,19 +1,19 @@
-FROM openjdk:8
+FROM suprabhatcs/mule-runtime-amc-4.4.0
 
 # Mule installation:
-ENV MULE_VERSION=4.7.1
+ENV MULE_VERSION=4.4.0
 #Add mule runtime in Docker Container
 ENV MULE_HOME /opt/mule
 
 #https://developer.mulesoft.com/download-mule-esb-runtime
-ADD mule-ee-distribution-standalone-4.7.1.zip /opt
+#ADD mule-ee-distribution-standalone-4.7.1.zip /opt
 #ADD test-muleapp.jar /opt
 
-RUN set -x \
-				&& cd /opt \
-				&& unzip mule-ee-distribution-standalone-4.7.1.zip \
-				&& mv mule-enterprise-standalone-4.7.1 mule \
-				&& $MULE_HOME/bin/mule -installLicense $MULE_HOME/conf/$LICENSE_FILE
+#RUN set -x \
+#				&& cd /opt \
+#				&& unzip mule-ee-distribution-standalone-4.7.1.zip \
+#				&& mv mule-enterprise-standalone-4.7.1 mule \
+#				&& $MULE_HOME/bin/mule -installLicense $MULE_HOME/conf/$LICENSE_FILE
 
 
 WORKDIR $MULE_HOME
