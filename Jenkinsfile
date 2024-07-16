@@ -15,13 +15,6 @@ pipeline {
 		println("Checkout successful")
       }
     }
-	
-	stage('Build application') {
-      steps {
-        mvn clean package
-		println("Application build successful")
-      }
-    }
 
     stage('Build image') {
       steps{
