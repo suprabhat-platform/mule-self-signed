@@ -16,6 +16,14 @@ pipeline {
       }
     }
 
+ stage('Build Application') {
+      steps{
+        script {
+               sh 'mvn clean package'
+		  println("Docker build successful")
+        }
+      }
+    }	  
     stage('Build image') {
       steps{
         script {
