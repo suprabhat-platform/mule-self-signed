@@ -1,8 +1,8 @@
 pipeline {
 
   environment {
-    dockerimagename = "suprabhatcs/dockermule"
-    dockerImage = "suprabhatcs/dockermule"
+    dockerimagename = "suprabhatcs/dockermule2"
+    dockerImage = "suprabhatcs/dockermule2:latest"
   }
 
   agent any
@@ -29,7 +29,7 @@ pipeline {
       steps{
         script {
 	  println("Docker image build started")
-	 bat 'docker build -t dockermule .'
+	 bat 'docker build -t dockermule2 .'
           //dockerImage = docker.build dockermule
 	   println("Docker build successful")
         }
