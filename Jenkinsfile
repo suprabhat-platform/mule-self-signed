@@ -19,8 +19,10 @@ pipeline {
  stage('Build Application') {
       steps{
         script {
-               sh 'mvn clean package'
-		  println("Docker build successful")
+	        println("Application build successful")
+		sh 'ls -ltr'
+                sh 'mvn clean package'
+		println("Application build successful")
         }
       }
     }	  
