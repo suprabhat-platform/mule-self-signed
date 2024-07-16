@@ -54,15 +54,6 @@ pipeline {
       }
     }
 
-    stage('Deploying Mule container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
-		  println("Deployment successfull")
-        }
-      }
-    }
-
   }
 
 }
