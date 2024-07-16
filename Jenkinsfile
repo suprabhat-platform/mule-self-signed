@@ -43,7 +43,9 @@ pipeline {
       steps{
         script {
 	  println("Image push started")	
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+	   docker.withRegistry('https://index.docker.io/v1/', registryCredential) 	
+        //docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
+	   {
            dockerImage.push("latest")
 	    println("Image push successfull")
           }
