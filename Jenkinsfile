@@ -1,7 +1,6 @@
 pipeline {
 
   environment {
-    dockerimagename = "suprabhatcs/dockermule2"
     dockerImage = ""
   }
 
@@ -11,8 +10,9 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/suprabhat-platform/mule-self-signed.git'
-		println("Checkout successful")
+	   println("Application checkout successful")
+           git 'https://github.com/suprabhat-platform/mule-self-signed.git'
+	   println("Application checkout successful")
       }
     }
 
@@ -28,32 +28,27 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-	  println("Docker image build started")
+	 println("Docker image build started")
 	 bat 'docker build -t suprabhatcs/dockermule2 .'
-          //dockerImage = docker.build dockermule
-	   println("Docker build successful")
+	 println("Docker build successful")
         }
       }
     }
-
-    stage('Pushing Image') {
+    stage('Push Image to DockerHub') {
       environment {
-               registryCredential = 'dockerhub-credentials'
-           }
+                  registryCredential = 'dockerhub-credentials'
+                  }
       steps{
         script {
-	  println("Image push started")	
-	  // docker.withRegistry('https://index.docker.io/v1/', registryCredential) 
+	  println("Image push to DockerHub started")	
 	   def dockerImage = docker.image("suprabhatcs/dockermule2")
            docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
 	   {
            dockerImage.push("latest")
-	    println("Image push successfull")
+	    println("Image push to DockerHub successfull")
           }
         }
       }
     }
-
   }
-
 }
