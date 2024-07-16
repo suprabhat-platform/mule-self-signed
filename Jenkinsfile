@@ -44,7 +44,7 @@ pipeline {
         script {
 	  println("Image push started")	
 	  // docker.withRegistry('https://index.docker.io/v1/', registryCredential) 
-	   def dockerImage = docker.image("dockermule2")
+	   def dockerImage = docker.image("suprabhatcs/dockermule2")
            docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
 	   {
            dockerImage.push("latest")
