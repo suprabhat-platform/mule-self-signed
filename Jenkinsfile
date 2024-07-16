@@ -20,8 +20,7 @@ pipeline {
       steps{
         script {
 	        println("Application build started")
-		sh 'ls -ltr'
-                sh 'mvn clean package'
+                bat 'mvn clean package'
 		println("Application build successful")
         }
       }
