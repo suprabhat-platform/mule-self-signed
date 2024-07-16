@@ -2,7 +2,7 @@ pipeline {
 
   environment {
     dockerimagename = "suprabhatcs/dockermule"
-    dockerImage = ""
+    dockerImage = "suprabhatcs/dockermule"
   }
 
   agent any
