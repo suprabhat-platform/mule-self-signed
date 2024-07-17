@@ -30,7 +30,7 @@ pipeline {
         script {
 	 println("Docker image build started")
 	 println(DOCKER_IMAGE)
-	 bat 'docker build -t ${DOCKER_IMAGE} .'
+	 bat 'docker build -t %DOCKER_IMAGE% .'
 	 println("Docker build successful")
 	 println("Image push to DockerHub started")	
 	 def dockerImage = docker.image(DOCKER_IMAGE)
