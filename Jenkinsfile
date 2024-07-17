@@ -45,15 +45,13 @@ pipeline {
 
    stage('Update Deployment File') {
         environment {
-            GIT_REPO_NAME = "mule-manifests"
+            GIT_REPO_NAME = "mule-self-signed"
             GIT_USER_NAME = "suprabhat-platform"
 	    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
         }
      steps {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
-		println("Update manifests in GitHub started")
-		git 'https://github.com/suprabhat-platform/mule-manifests.git'
-		println("Manifests checkout successfull")    
+		println("Update manifests in GitHub started")   
                script {
 		def buildNumber = env.BUILD_NUMBER    
 		println(DOCKER_IMAGE)
@@ -64,14 +62,12 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add deployment.yaml
                     git commit -m "Update deployment image to version %BUILD_NUMBER%"
-		    git pull https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:main
                     git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:main
                 '''
 	       }       
 		 println("Update manifests in GitHub successfull")
             }
         }
-     }
-	  
+     }	  
   }
 }
