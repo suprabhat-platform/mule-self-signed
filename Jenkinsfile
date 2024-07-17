@@ -47,12 +47,14 @@ pipeline {
         environment {
             GIT_REPO_NAME = "mule-self-signed"
             GIT_USER_NAME = "suprabhat-platform"
+	    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
         }
      steps {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 		 println("Update manifests in GitHub started")
                script {
-		def buildNumber = env.BUILD_NUMBER      
+		def buildNumber = env.BUILD_NUMBER    
+		println(DOCKER_IMAGE)
 		def deploymentYml = readFile('deployment.yaml').replaceAll('replaceImageTag', buildNumber)
                 writeFile file: 'deployment.yaml', text: deploymentYml    
                 bat '''
