@@ -7,14 +7,14 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8785bcd9-048b-47e4-aee5-a7117c671380" >
-		<http:listener-connection protocol="HTTPS" host="0.0.0.0" port="8082" >
+		<http:listener-connection protocol="HTTPS" host="0.0.0.0" port="8081" >
 			<tls:context >
 				<tls:key-store type="jks" path="keystore.jks" alias="mykeyalias" keyPassword="mule123" password="mule123" />
 			</tls:context>
 		</http:listener-connection>
 	</http:listener-config>
 	<flow name="mule-self-signedFlow" doc:id="cb84b6b4-509f-4617-b336-bdf199204fa6" >
-		<http:listener doc:name="Listener" doc:id="04a64b54-cd55-4b8f-ba4b-4692a600ceac" config-ref="HTTP_Listener_config" path="/server"/>
+		<http:listener doc:name="Listener" doc:id="04a64b54-cd55-4b8f-ba4b-4692a600ceac" config-ref="HTTP_Listener_config" path="/ping"/>
 		<logger level="INFO" doc:name="Logger" doc:id="5d84d67f-79fa-417c-abf3-a01aafb8345b" message="API started"/>
 		<ee:transform doc:name="Transform Message" doc:id="083726eb-3e03-40e2-ac00-7609c9f6aea3">
 			<ee:message>
@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/json
 ---
 {
-	"message":"Success"
+	"message":"Ping success"
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
