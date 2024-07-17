@@ -52,7 +52,7 @@ pipeline {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 		 println("Update manifests in GitHub started")
                script {
-		def buildNumber = env.BUILD_NUMBER       
+		def buildNumber = %BUILD_NUMBER%       
 		def deploymentYml = readFile('deployment.yaml').replaceAll('replaceImageTag', buildNumber)
                 writeFile file: 'deployment.yaml', text: deploymentYml    
                 bat '''
