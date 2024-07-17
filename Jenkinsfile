@@ -21,7 +21,7 @@ pipeline {
         }
       }
     }	  
-    stage('Build image') {
+    stage('Build image and Publish to DockerHub') {
     environment {
     DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
     registryCredential = 'dockerhub-credentials'
