@@ -45,7 +45,7 @@ pipeline {
 
    stage('Update Deployment File') {
         environment {
-            GIT_REPO_NAME = "mule-self-signed"
+            GIT_REPO_NAME = "mule-manifests"
             GIT_USER_NAME = "suprabhat-platform"
 	    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
         }
