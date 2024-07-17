@@ -64,7 +64,7 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add deployment.yaml
                     git commit -m "Update deployment image to version %BUILD_NUMBER%"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME%
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:main
                 '''
 	       }       
 		 println("Update manifests in GitHub successfull")
