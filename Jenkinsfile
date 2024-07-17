@@ -56,7 +56,7 @@ pipeline {
 		def buildNumber = env.BUILD_NUMBER    
 		println(DOCKER_IMAGE)
 		def deploymentYml = readFile('manifests/deployment.yaml').replaceAll(/(image:\s*).*/, "\$1${DOCKER_IMAGE}")
-                writeFile file: 'deployment.yaml', text: deploymentYml    
+                writeFile file: 'manifests/deployment.yaml', text: deploymentYml    
                 bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
