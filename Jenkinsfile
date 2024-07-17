@@ -1,9 +1,5 @@
 pipeline {
 
-  environment {
-    dockerImage = ""
-  }
-
   agent any
 
   stages {
@@ -26,25 +22,20 @@ pipeline {
       }
     }	  
     stage('Build image') {
+    environment {
+    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
+    registryCredential = 'dockerhub-credentials'
+     }
       steps{
         script {
 	 println("Docker image build started")
 	 bat 'docker build -t suprabhatcs/dockermule2 .'
 	 println("Docker build successful")
-        }
-      }
-    }
-    stage('Push Image to DockerHub') {
-      environment {
-                  registryCredential = 'dockerhub-credentials'
-                  }
-      steps{
-        script {
-	  println("Image push to DockerHub started")	
-	   def dockerImage = docker.image("suprabhatcs/dockermule2")
-           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
-	   {
-           dockerImage.push("latest")
+	 println("Image push to DockerHub started")	
+	 def dockerImage = docker.image("${DOCKER_IMAGE}")
+         docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
+	 {
+            dockerImage.push()
 	    println("Image push to DockerHub successfull")
           }
         }
