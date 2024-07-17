@@ -50,6 +50,7 @@ pipeline {
         }
      steps {
             withCredentials([string(credentialsId: 'github-credentials', variable: 'GITHUB_TOKEN')]) {
+		 println("Update manifests in GitHub started")
                 bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "Suprabhat Vani"
@@ -59,6 +60,7 @@ pipeline {
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
+		 println("Update manifests in GitHub successfull")
             }
         }
      }
