@@ -51,14 +51,19 @@ pipeline {
      steps {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 		 println("Update manifests in GitHub started")
+               script {
+		def buildNumber = env.BUILD_NUMBER       
+		def deploymentYml = readFile('deployment.yaml').replaceAll('replaceImageTag', buildNumber)
+                writeFile file: 'deployment.yaml', text: deploymentYml    
                 bat '''
                     git config user.email "suprabhatcs@gmail.com"
-                    git config user.name "Suprabhat Vani"
+                    git config user.name "suprabhat-platform"
                     (Get-Content deployment.yml) -replace 'replaceImageTag', \$BUILD_NUMBER | Set-Content deployment.yaml
                     git add deployment.yaml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
                 '''
+	       }       
 		 println("Update manifests in GitHub successfull")
             }
         }
