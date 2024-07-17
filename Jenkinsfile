@@ -33,7 +33,7 @@ pipeline {
 	 bat 'docker build -t ${DOCKER_IMAGE} .'
 	 println("Docker build successful")
 	 println("Image push to DockerHub started")	
-	 def dockerImage = docker.image("${DOCKER_IMAGE}")
+	 def dockerImage = docker.image(DOCKER_IMAGE)
          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
 	 {
             dockerImage.push()
