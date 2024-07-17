@@ -49,7 +49,7 @@ pipeline {
             GIT_USER_NAME = "suprabhat-platform"
         }
      steps {
-            withCredentials([string(credentialsId: 'github-credentials', variable: 'GITHUB_TOKEN')]) {
+            withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 		 println("Update manifests in GitHub started")
                 bat '''
                     git config user.email "suprabhatcs@gmail.com"
