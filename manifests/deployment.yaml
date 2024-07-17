@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dockermule
-        image: suprabhatcs/dockermule:96
+        image: suprabhatcs/dockermule:97
         ports:
         - containerPort: 8082
       imagePullSecrets:
