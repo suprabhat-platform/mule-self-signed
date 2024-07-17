@@ -29,7 +29,7 @@ pipeline {
       steps{
         script {
 	 println("Docker image build started")
-	 bat 'docker build -t suprabhatcs/dockermule2:${BUILD_NUMBER} .'
+	 bat 'docker build -t suprabhatcs/dockermule2 .'
 	 println("Docker build successful")
         }
       }
@@ -41,7 +41,7 @@ pipeline {
       steps{
         script {
 	  println("Image push to DockerHub started")	
-	   def dockerImage = docker.image("suprabhatcs/dockermule2:${BUILD_NUMBER}")
+	   def dockerImage = docker.image("suprabhatcs/dockermule2")
            docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
 	   {
            dockerImage.push("latest")
