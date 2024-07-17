@@ -60,7 +60,7 @@ pipeline {
                 bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
-                    git add deployment.yaml
+                    git add manifests/deployment.yaml
                     git commit -m "Update deployment image to version %BUILD_NUMBER%"
                     git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:master
                 '''
