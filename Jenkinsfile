@@ -51,7 +51,9 @@ pipeline {
         }
      steps {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
-		 println("Update manifests in GitHub started")
+		println("Update manifests in GitHub started")
+		git 'https://github.com/suprabhat-platform/mule-manifests.git'
+		println("Manifests checkout successfull")    
                script {
 		def buildNumber = env.BUILD_NUMBER    
 		println(DOCKER_IMAGE)
