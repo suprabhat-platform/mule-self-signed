@@ -1,14 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dockermule-service
-  namespace: default
+  name: mule-gitops-service
+  namespace: 60486a51-7039-4f45-b1be-a0069c86f864
 spec:
+  type: LoadBalancer
   selector:
-    app: dockermule
+    app: mule-gitops
   ports:
-    - protocol: TCP
-      port: 443
-      targetPort: 8082
-      nodePort: 30001  # specify a port between 30000 and 32767
-  type: NodePort
+    - name: http
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+   app: mule-gitops
+  

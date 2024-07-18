@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dockermule-deployment
-  namespace: default
+  name: mule-gitops-deployment
+  namespace: 60486a51-7039-4f45-b1be-a0069c86f864
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dockermule
+      app: mule-gitops
   template:
     metadata:
       labels:
-        app: dockermule
+        app: mule-gitops
     spec:
       containers:
-      - name: dockermule
-        image: suprabhatcs/dockermule:97
+      - name: mule-gitops
+        image: suprabhatcs/mule-gitops:97
         ports:
-        - containerPort: 8082
-      imagePullSecrets:
-      - name: regcred
+        - containerPort: 8081
