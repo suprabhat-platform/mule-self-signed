@@ -47,7 +47,7 @@ pipeline {
         environment {
             GIT_REPO_NAME = "mule-self-signed"
             GIT_USER_NAME = "suprabhat-platform"
-	    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
+	    DOCKER_IMAGE = "suprabhatcs/mule-gitops:${BUILD_NUMBER}"
         }
      steps {
             withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
