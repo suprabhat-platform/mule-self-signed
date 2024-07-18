@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: mule-gitops
-        image: suprabhatcs/dockermule:100
+        image: suprabhatcs/mule-gitops:101
         ports:
         - containerPort: 8081
