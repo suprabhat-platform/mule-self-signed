@@ -11,7 +11,10 @@ pipeline {
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
            echo "*** pom.xml before changes ***"
-           sh "head pom.xml"
+          // sh "head pom.xml"
+	    powershell '''
+                    Get-Content pom.xml -First 10
+                    '''	 
            echo "**** sh pom completed"
 	   if(pom.parent != null) {
 		   echo "**** Inside If"
