@@ -12,9 +12,13 @@ pipeline {
 	   println("Application checkout successful")
            echo "*** pom.xml before changes ***"
            sh "head pom.xml"
+           echo "**** sh pom completed"
 	   if(pom.parent != null) {
+		   echo "**** Inside If"
 		   pom.parent.version="9.9.9"
+		   echo "****  If complete"
 	   }
+	   echo "****  outside if:writeMavenPom started " 
            writeMavenPom model: pom
            echo "**** pom.xml after change"
 	   sh "head pom.xml"	 
