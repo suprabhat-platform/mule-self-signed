@@ -10,7 +10,7 @@ pipeline {
            def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
-           echo "*** pom.xml before changes ***"
+      /*     echo "*** pom.xml before changes ***"
           // sh "head pom.xml"
 	    powershell '''
                     Get-Content pom.xml -First 10
@@ -24,8 +24,8 @@ pipeline {
 	   echo "****  outside if:writeMavenPom started " 
            writeMavenPom model: pom
            echo "**** pom.xml after change"
-	   sh "head pom.xml"	 
-	 /*  def xmlContent = readFile('pom.xml')
+	   sh "head pom.xml"	 */
+	   def xmlContent = readFile('pom.xml')
 	   println("XML Content ==" + xmlContent) 
 	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
@@ -33,7 +33,7 @@ pipeline {
 	   println("Inside if == ")
            pom.parent.version[0].setValue("9.9.9")
 	   println("If End == ")	   
-	   }    */
+	   }    
 	  println("Update complete == ")    
 	 }		 
       }
