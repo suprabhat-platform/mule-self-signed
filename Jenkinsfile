@@ -6,6 +6,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
+	 script {     
 	   println("Application checkout successful")
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
@@ -19,6 +20,7 @@ pipeline {
 	   println("If End == ")	   
 	   }   
 	  println("Update complete == " + pom)    
+	 }		 
       }
     }  
   }
