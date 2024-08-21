@@ -15,7 +15,7 @@ pipeline {
 	   println("Parsed pom data == "+ pom)
 	   if(pom.parent != null) { 
 	   println("Inside if == ")
-           pom.parent.version = "9.9.9"
+           pom.parent.version[0].setValue("9.9.9")
 	   println("If End == ")	   
 	   }   
 	  println("Update complete == " + pom)    
