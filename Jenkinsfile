@@ -27,7 +27,7 @@ pipeline {
 	   sh "head pom.xml"	 */
 	   def xmlContent = readFile('pom.xml')
 	   println("XML Content ==" + xmlContent) 
-	   def pom = new XmlSlurper().parseText(xmlContent)   
+	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
 	   if(pom.parent != null) { 
 	   println("Inside if == ")
