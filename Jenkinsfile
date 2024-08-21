@@ -43,8 +43,9 @@ pipeline {
 	  // def articles = new XmlParser().parse('pom.xml')
            def xmlContent = getClass().getResourceAsStream("pom.xml")		 
 	  // def xmlContent = readFile('pom.xml')	 
-           println("xmlContent == " + xmlContent)		 
-           def pomdata = new XmlSlurper().parse(xmlContent)		 
+           println("xmlContent == " + xmlContent)	
+	   def pomdata = new XmlParser().parse(xmlContent)	 
+         //  def pomdata = new XmlSlurper().parse(xmlContent)		 
            println("pomdata == " + pomdata)
 	   println("pomdata.project.parent == " + pomdata.project.parent)
 	 // pom.parent.version="9.9.9"
