@@ -9,7 +9,7 @@ pipeline {
 	 script {     
             //import groovy.util.Node	
 	    //import groovy.xml.*	 
-          // def pom = ''		 
+            def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
       /*     echo "*** pom.xml before changes ***"
@@ -43,6 +43,7 @@ pipeline {
            println("pom.parent.version == " + pom.parent.version)
 	  pom.parent.version="9.9.9"
           println("pom.parent.version == " + pom.parent.version)
+	  writeMavenPom model: pom
 	  println("Update complete == ")    
 	 }		 
       }
