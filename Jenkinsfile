@@ -30,7 +30,7 @@ pipeline {
 	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
 	   println("pom.parent == "+ pom.parent)	
-           println("pom.parent.parent == "+ pom.parent.parent)	
+           println("pom.parent.value.version == "+ pom.parent.value.version)	
 	 //  println("pom.parent.value[0].value == "+ pom.parent.value[0].value)
          //  println("pom.parent.version[0] == "+ pom.parent.version[0])
           // println("pom.parent[0].version == "+ pom.parent[0].version)
