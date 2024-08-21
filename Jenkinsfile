@@ -7,9 +7,10 @@ pipeline {
     stage('Checkout Source') {
       steps {
 	 script {     
+           def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
-	   def xmlContent = readFile('pom.xml')
+	 /*  def xmlContent = readFile('pom.xml')
 	   println("XML Content ==" + xmlContent) 
 	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
@@ -17,8 +18,8 @@ pipeline {
 	   println("Inside if == ")
            pom.parent.version[0].setValue("9.9.9")
 	   println("If End == ")	   
-	   }   
-	  println("Update complete == " + pom)    
+	   }    */
+	  println("Update complete == ")    
 	 }		 
       }
     }  
