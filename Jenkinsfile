@@ -31,9 +31,9 @@ pipeline {
 	   println("Parsed pom data == "+ pom)
 	   println("pom.parent == "+ pom.parent)	
            println("pom.parent[0] == "+ pom.parent[0])	
-	   println("pom.parent.value[0].version == "+ pom.parent.value[0].version)
-           println("pom.parent.version[0] == "+ pom.parent.version[0])
-           println("pom.parent[0].version == "+ pom.parent[0].version)
+	   println("pom.parent.value[0].value == "+ pom.parent.value[0].value)
+         //  println("pom.parent.version[0] == "+ pom.parent.version[0])
+          // println("pom.parent[0].version == "+ pom.parent[0].version)
 	   if(pom.parent != null) { 
 	   println("Inside if == ")
            pom.parent.version[0].setValue("9.9.9")
