@@ -29,6 +29,9 @@ pipeline {
 	   println("XML Content ==" + xmlContent) 
 	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
+	   println("pom.parent == "+ pom.parent)	
+           println("pom.parent.version == "+ pom.parent.version)	
+           println("pom.parent.version[0] == "+ pom.parent.version[0])
 	   if(pom.parent != null) { 
 	   println("Inside if == ")
            pom.parent.version[0].setValue("9.9.9")
