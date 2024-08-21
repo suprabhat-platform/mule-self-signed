@@ -7,8 +7,8 @@ pipeline {
     stage('Checkout Source') {
       steps {
 	 script {     
-            import groovy.util.Node	
-	    import groovy.xml.*	 
+            //import groovy.util.Node	
+	    //import groovy.xml.*	 
           // def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
