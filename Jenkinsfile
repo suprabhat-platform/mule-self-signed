@@ -40,10 +40,13 @@ pipeline {
            pom.parent.version[0].setValue("9.9.9")
 	   println("If End == ")	   
 	   }    */
-           println("pom.parent.version == " + pom.parent.version)
-	  pom.parent.version="9.9.9"
-          println("pom.parent.version == " + pom.parent.version)
-	  writeMavenPom model: pom
+	  // def articles = new XmlParser().parse('pom.xml')
+           def pomdata = new XmlSlurper().parse(xmlFile)		 
+           println("pomdata == " + pomdata)
+	   println("pomdata.project.parent == " + pomdata.project.parent)
+	 // pom.parent.version="9.9.9"
+         // println("pom.parent.version == " + pom.parent.version)
+	  //writeMavenPom model: pom
 	  println("Update complete == ")    
 	 }		 
       }
