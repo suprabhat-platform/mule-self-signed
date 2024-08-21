@@ -41,7 +41,7 @@ pipeline {
 	   println("If End == ")	   
 	   }    */
 	  // def articles = new XmlParser().parse('pom.xml')
-           def pomdata = new XmlSlurper().parse(xmlFile)		 
+           def pomdata = new XmlSlurper().parse('pom.xml')		 
            println("pomdata == " + pomdata)
 	   println("pomdata.project.parent == " + pomdata.project.parent)
 	 // pom.parent.version="9.9.9"
