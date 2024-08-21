@@ -40,21 +40,9 @@ pipeline {
            pom.parent.version[0].setValue("9.9.9")
 	   println("If End == ")	   
 	   }    */
-
-	  def newVersion = '2.0.0'
-          def pomFile = new File('pom.xml')
-	  def pom = new XmlParser().parse(pomFile) 
-	  def parentNode = pom.'parent'
-		if (parentNode) {
-		    def versionNode = parentNode.'version'
-		    if (versionNode) {
-		        versionNode[0].setValue(newVersion)
-		    } else {
-		        println "version element not found in parent."
-		    }
-		} else {
-		    println "parent element not found."
-		}	 
+           println("pom.parent.version == " + pom.parent.version)
+	  pom.parent.version="9.9.9"
+          println("pom.parent.version == " + pom.parent.version)
 	  println("Update complete == ")    
 	 }		 
       }
