@@ -7,6 +7,8 @@ pipeline {
     stage('Checkout Source') {
       steps {
 	 script {     
+            import groovy.util.Node	
+	    import groovy.xml.*	 
           // def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
@@ -30,7 +32,7 @@ pipeline {
 	   def pom = new XmlParser().parseText(xmlContent)   
 	   println("Parsed pom data == "+ pom)
 	   println("pom.parent == "+ pom.parent)	
-           println("pom.parent.value.version == "+ pom.parent.value.version)	
+           println("pom.parent.version[0] == "+ pom.parent.version[0])	
 	 //  println("pom.parent.value[0].value == "+ pom.parent.value[0].value)
          //  println("pom.parent.version[0] == "+ pom.parent.version[0])
           // println("pom.parent[0].version == "+ pom.parent[0].version)
