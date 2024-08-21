@@ -31,7 +31,7 @@ pipeline {
 	   println("Parsed pom data == "+ pom)
 	   println("pom.parent == "+ pom.parent)	
            println("pom.parent[0] == "+ pom.parent[0])	
-	   println("pom.parent.value == "+ pom.parent.value)
+	   println("pom.parent.value[0].version == "+ pom.parent.value[0].version)
            println("pom.parent.version[0] == "+ pom.parent.version[0])
            println("pom.parent[0].version == "+ pom.parent[0].version)
 	   if(pom.parent != null) { 
