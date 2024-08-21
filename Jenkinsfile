@@ -42,6 +42,7 @@ pipeline {
 	   }    */
 	  // def articles = new XmlParser().parse('pom.xml')
 	   def xmlContent = readFile('pom.xml')	 
+           println("xmlContent == " + xmlContent)		 
            def pomdata = new XmlSlurper().parse(xmlContent)		 
            println("pomdata == " + pomdata)
 	   println("pomdata.project.parent == " + pomdata.project.parent)
