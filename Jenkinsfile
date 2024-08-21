@@ -43,9 +43,8 @@ pipeline {
 	 
 	    def xmlContent = readFile('pom.xml')	 
            println("xmlContent == " + xmlContent)	 
-           def pomdata = new XmlSlurper().parseText(xmlContent).declareNamespace(project: xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd) 
-           println("pomdata == " + pomdata)
-	    println("pomdata.project == " + pomdata.project)	 
+           def pomdata = new XmlSlurper().parseText(xmlContent)
+	    println("pomdata.project.parent.version.text() == " + pomdata.project.parent.version.text())	 
 	   println("pomdata.project.parent == " + pomdata.project.parent)
 	  println("Update complete == ")    
 	 }		 
