@@ -12,7 +12,7 @@ pipeline {
       }
     }
 
- stage('Build Application') {
+/* stage('Build Application') {
       steps{
         script {
 	        println("Application build started")
@@ -68,6 +68,6 @@ pipeline {
 		 println("Update manifests in GitHub successfull")
             }
         }
-     }	  
+     }	  */
   }
 }
