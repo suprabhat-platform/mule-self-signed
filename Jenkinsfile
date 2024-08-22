@@ -56,7 +56,7 @@ println("xmlContent == " + xmlContent)
 
 def pomdata = new XmlSlurper().parseText(xmlContent)
 //pomdata = pomdata.declareNamespace('': 'http://maven.apache.org/POM/4.0.0')
-pomdata = pomdata.declareNamespace("": 'http://maven.apache.org/POM/4.0.0')
+pomdata = pomdata.declareNamespace('pom': 'http://maven.apache.org/POM/4.0.0')
 // Print the parsed XML structure to debug
 println("Parsed pomdata == \n" + groovy.xml.XmlUtil.serialize(pomdata))
 
