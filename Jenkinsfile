@@ -18,6 +18,7 @@ pipeline {
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
 	   println("pom.getDependencies()" + pom.getDependencies()) 
+	   println("pom.properties()" + pom.properties())
 		 
 	   	 
 	/*	 
