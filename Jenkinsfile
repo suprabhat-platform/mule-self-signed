@@ -12,6 +12,12 @@ pipeline {
            // def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
+	   def pom = readMavenPom file: 'pom.xml'
+	    println("pom data before == " + pom)
+           def version = pom.version.replace("-SNAPSHOT", "")
+            pom.version = version
+	   writeMavenPom model: pom
+	   println("pom data after == " + pom)		 
       /*     echo "*** pom.xml before changes ***"
           // sh "head pom.xml"
 	    powershell '''
@@ -75,12 +81,7 @@ writeFile(file: 'pom.xml', text: updatedXmlContent)
 println("Update complete == ") */
 
 //def pom = readMavenPom file: 'pom.xml'
-//println("pom data == " + pom)
-def pom = readMavenPom file: 'pom.xml'
-def version = pom.version.replace("-SNAPSHOT", "")
-pom.version = version
-writeMavenPom model: pom
-println("pom data == " + pom)	 
+//println("pom data == " + pom) 
 	 }		 
       }
     }  
