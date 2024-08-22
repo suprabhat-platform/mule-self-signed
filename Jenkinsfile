@@ -15,6 +15,7 @@ pipeline {
 	   def pom = readMavenPom file: 'pom.xml'
 	    println("pom data before == " + pom)
             println("pom.version == " + pom.version)
+	    println("pom.parent.version == " + pom.parent.version) 
            def version = pom.version.replace("-SNAPSHOT", "")
             pom.version = version
 	   writeMavenPom model: pom
