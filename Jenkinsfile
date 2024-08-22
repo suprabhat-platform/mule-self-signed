@@ -39,6 +39,14 @@ pipeline {
            println("Properties update completed") 
 		 
            //pom dependencies update
+	  // Iterate through dependencies
+       pom.dependencies.each { dependency ->
+       if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-http-connector") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "1.7.5"
+        println("Dependency version after: " + dependency.version)
+    }
+}	 
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
