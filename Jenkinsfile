@@ -51,6 +51,8 @@ pipeline {
 	   println("pomdata.project.parent == " + pomdata.project.parent)
 	  println("Update complete == ")    */
 
+ /*
+    //version working code 
 	 def xmlContent = readFile('pom.xml')
 println("xmlContent == " + xmlContent)
 def pomdata = new XmlSlurper().parseText(xmlContent)
@@ -70,8 +72,12 @@ println("Updated xmlContent == \n" + updatedXmlContent)
 // Write the updated content back to the file
 writeFile(file: 'pom.xml', text: updatedXmlContent)
 
-println("Update complete == ")
+println("Update complete == ") */
 
+def pom = readMavenPom file: 'pom.xml'
+println("pom data == " + pom)
+ writeMavenPom model: pom
+println("pom data after write== " + pom)
 	 }		 
       }
     }  
