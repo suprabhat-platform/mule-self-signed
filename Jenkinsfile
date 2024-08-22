@@ -18,7 +18,7 @@ pipeline {
 	    println("pom.parent.version == " + pom.parent.version) 
           // def version = pom.version.replace("-SNAPSHOT", "")
            // pom.version = version
-           def version = pom.version.setValue("9.9.9")
+           def version = pom.version.replace("1.0.3","9.9.9")
 	   pom.version = version
 	   writeMavenPom model: pom
 	   println("pom data after == " + pom)		 
