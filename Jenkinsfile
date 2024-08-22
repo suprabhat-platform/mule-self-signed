@@ -80,6 +80,7 @@ def pom = readMavenPom file: 'pom.xml'
 def version = pom.version.replace("-SNAPSHOT", "")
 pom.version = version
 writeMavenPom model: pom
+println("pom data == " + pom)	 
 	 }		 
       }
     }  
