@@ -9,29 +9,37 @@ pipeline {
 	 script {     
            def pom = ''
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
-	   println("Application checkout successful")	 
+	   println("Application checkout successful")	
+		 
 	   pom = readMavenPom file: 'pom.xml'
-	   println("pom with readMavenPom" + pom) 	
+	   println("pom with readMavenPom" + pom) 
+		 
+           //Parent pom version update	 
 	   println("pom.parent.version before" + pom.parent.version) 		 
            pom.parent.version="8.8.8"
 	   println("pom.parent.version after " + pom.parent.version) 
-		 
+
+	  //pom properties update	
+	   println("Properties update started") 	 
 	   println("pom.properties.'app.runtime' before " + pom.properties.'app.runtime')  	 
 	   pom.properties.'app.runtime'="4.5.0"	 
 	   println("pom.properties.'app.runtime' after " + pom.properties.'app.runtime')
 
-	  println("pom.properties.'mule.maven.plugin.version' before " + pom.properties.'mule.maven.plugin.version')  	 
-	  pom.properties.'mule.maven.plugin.version'="3.8.7"	 
-	  println("pom.properties.'mule.maven.plugin.version' after " + pom.properties.'mule.maven.plugin.version')	 
+	   println("pom.properties.'mule.maven.plugin.version' before " + pom.properties.'mule.maven.plugin.version')  	 
+	   pom.properties.'mule.maven.plugin.version'="3.8.7"	 
+	   println("pom.properties.'mule.maven.plugin.version' after " + pom.properties.'mule.maven.plugin.version')	 
 
-	  println("pom.properties.muleHttpConnector before " + pom.properties.muleHttpConnector)  	 
-	  pom.properties.muleHttpConnector="1.9.2"	 
-	  println("pom.properties.muleHttpConnector after " + pom.properties.muleHttpConnector)
+	   println("pom.properties.muleHttpConnector before " + pom.properties.muleHttpConnector)  	 
+	   pom.properties.muleHttpConnector="1.9.2"	 
+	   println("pom.properties.muleHttpConnector after " + pom.properties.muleHttpConnector)
 
-	 println("pom.properties.'munit.version' before " + pom.properties.'munit.version')  	 
-	  pom.properties.'munit.version'="2.3.13"	 
-	  println("pom.properties.'munit.versionn' after " + pom.properties.'munit.version')
-
+	   println("pom.properties.'munit.version' before " + pom.properties.'munit.version')  	 
+	   pom.properties.'munit.version'="2.3.13"	 
+	   println("pom.properties.'munit.versionn' after " + pom.properties.'munit.version')
+           println("Properties update completed") 
+		 
+           //pom dependencies update
+           pom.dependencies.dependency
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
