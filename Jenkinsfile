@@ -12,15 +12,15 @@ pipeline {
 	   println("Application checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 	
-	   println("pom.parent.version" + pom.parent.version) 		 
+	   println("pom.parent.version before" + pom.parent.version) 		 
            pom.parent.version="8.8.8"
-	   println("pom.parent.version after update " + pom.parent.version) 
+	   println("pom.parent.version after " + pom.parent.version) 
 		 
-	   println("pom.properties.'app.runtime' before" + pom.properties.'app.runtime')  	 
+	   println("pom.properties.'app.runtime' before " + pom.properties.'app.runtime')  	 
 	   pom.properties.'app.runtime'="4.5.0"	 
 	   println("pom.properties.'app.runtime' after " + pom.properties.'app.runtime')
 
-	  println("pom.properties.'mule.maven.plugin.version' before" + pom.properties.'mule.maven.plugin.version')  	 
+	  println("pom.properties.'mule.maven.plugin.version' before " + pom.properties.'mule.maven.plugin.version')  	 
 	  pom.properties.'mule.maven.plugin.version'="3.8.7"	 
 	  println("pom.properties.'mule.maven.plugin.version' after " + pom.properties.'mule.maven.plugin.version')	 
 
