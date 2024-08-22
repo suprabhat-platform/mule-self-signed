@@ -76,9 +76,10 @@ println("Update complete == ") */
 
 //def pom = readMavenPom file: 'pom.xml'
 //println("pom data == " + pom)
- def pom = ''		 
- writeMavenPom model: pom
-println("pom data after write== " + pom)
+def pom = readMavenPom file: 'pom.xml'
+def version = pom.version.replace("-SNAPSHOT", "")
+pom.version = version
+writeMavenPom model: pom
 	 }		 
       }
     }  
