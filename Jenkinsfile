@@ -71,6 +71,13 @@ def parentElement = pomdata.parent
 println("Serialized parent element == \n" + groovy.xml.XmlUtil.serialize(parentElement))
 println("pomdata after== " + pomdata)
 
+// Serialize the modified XML back to a string
+def updatedXmlContent = groovy.xml.XmlUtil.serialize(pomdata)
+println("Updated xmlContent == \n" + updatedXmlContent)
+
+// Write the updated content back to the file
+writeFile(file: 'pom.xml', text: updatedXmlContent)
+
 println("Update complete == ")
 
 	 }		 
