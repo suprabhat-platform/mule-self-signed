@@ -50,8 +50,8 @@ pipeline {
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
-          def file = new File('test.txt')
-          file.createNewFile()	
+         // def file = new File('test.txt')
+         // file.createNewFile()	
 	  sh 'git add .'
 	  sh 'git commit -m "created test file"'
 	  println("Commit successful")
