@@ -9,7 +9,7 @@ pipeline {
 	 script {     
             //import groovy.util.Node	
 	    //import groovy.xml.*	 
-            def pom = ''		 
+           // def pom = ''		 
            git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application checkout successful")
       /*     echo "*** pom.xml before changes ***"
