@@ -74,8 +74,9 @@ writeFile(file: 'pom.xml', text: updatedXmlContent)
 
 println("Update complete == ") */
 
-def pom = readMavenPom file: 'pom.xml'
-println("pom data == " + pom)
+//def pom = readMavenPom file: 'pom.xml'
+//println("pom data == " + pom)
+ def pom = ''		 
  writeMavenPom model: pom
 println("pom data after write== " + pom)
 	 }		 
