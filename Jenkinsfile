@@ -64,7 +64,7 @@ println("Parsed pomdata == \n" + groovy.xml.XmlUtil.serialize(pomdata))
 def parentVersion = pomdata.parent.version.text()
 println("pomdata.parent.version.text() == " + parentVersion)
 pom.parent.version.setValue("9.9.9")	
-def parentVersion = pomdata.parent.version.text()
+//def parentVersion = pomdata.parent.version.text()
 println("pomdata.parent.version.text() after== " + parentVersion)		 
 
 def parentElement = pomdata.parent
