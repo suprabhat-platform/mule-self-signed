@@ -7,7 +7,7 @@
 
 	<groupId>com.mycompany</groupId>
 	<artifactId>mule-self-signed</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.3</version>
 	<packaging>mule-application</packaging>
 
 	<name>mule-self-signed</name>
