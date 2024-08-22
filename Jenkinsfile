@@ -15,9 +15,15 @@ pipeline {
 	   println("pom.parent.version" + pom.parent.version) 		 
            pom.parent.version="8.8.8"
 	   println("pom.parent.version after update" + pom.parent.version) 
+		 
 	   println("pom.properties.'app.runtime'" + pom.properties.'app.runtime')  	 
 	   pom.properties.'app.runtime'="4.5.0"	 
 	   println("pom.properties.'app.runtime' after update" + pom.properties.'app.runtime')
+
+	  println("pom.properties.'mule.maven.plugin.version'" + pom.properties.'mule.maven.plugin.version')  	 
+	  pom.properties.'mule.maven.plugin.version'="3.8.7"	 
+	  println("pom.properties.'mule.maven.plugin.version' after update" + pom.properties.'mule.maven.plugin.version')	 
+		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
 	 //  println("pom.getDependencies()" + pom.getDependencies()) 
