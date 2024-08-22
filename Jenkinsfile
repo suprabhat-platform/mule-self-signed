@@ -41,7 +41,7 @@ pipeline {
 	   println("If End == ")	   
 	   }    */
 	 
-	    def xmlContent = readFile('pom.xml')	 
+	  /*  def xmlContent = readFile('pom.xml')	 
            println("xmlContent == " + xmlContent)	 
            def pomdata = new XmlSlurper().parseText(xmlContent)
            println("pomdata == " + pomdata)
@@ -49,7 +49,26 @@ pipeline {
 	   println("pomdata after declaration == " + pomdata)	 
 	    println("pomdata.project.parent.version.text() == " + pomdata.project.parent.version.text())	 
 	   println("pomdata.project.parent == " + pomdata.project.parent)
-	  println("Update complete == ")    
+	  println("Update complete == ")    */
+
+	 def xmlContent = readFile('pom.xml')
+println("xmlContent == " + xmlContent)
+
+def pomdata = new XmlSlurper().parseText(xmlContent)
+pomdata = pomdata.declareNamespace('': 'http://maven.apache.org/POM/4.0.0')
+
+// Print the parsed XML structure to debug
+println("Parsed pomdata == \n" + groovy.xml.XmlUtil.serialize(pomdata))
+
+// Access the parent and version elements
+def parentVersion = pomdata.parent.version.text()
+println("pomdata.parent.version.text() == " + parentVersion)
+
+def parentElement = pomdata.parent
+println("Serialized parent element == \n" + groovy.xml.XmlUtil.serialize(parentElement))
+
+println("Update complete == ")
+
 	 }		 
       }
     }  
