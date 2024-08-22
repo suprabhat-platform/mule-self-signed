@@ -53,28 +53,20 @@ pipeline {
 
 	 def xmlContent = readFile('pom.xml')
 println("xmlContent == " + xmlContent)
-
 def pomdata = new XmlSlurper().parseText(xmlContent)
-//pomdata = pomdata.declareNamespace('': 'http://maven.apache.org/POM/4.0.0')
 pomdata = pomdata.declareNamespace('pom': 'http://maven.apache.org/POM/4.0.0')
 // Print the parsed XML structure to debug
 println("Parsed pomdata == \n" + groovy.xml.XmlUtil.serialize(pomdata))
-
 // Access the parent and version elements
 def parentVersion = pomdata.parent.version.text()
 println("pomdata.parent.version.text() == " + parentVersion)
-pomdata.parent.version.replaceBody('9.9.9')	
-//def parentVersion = pomdata.parent.version.text()
-//println("pomdata.parent.version.text() after== " + parentVersion)		 
-
+pomdata.parent.version.replaceBody('9.9.9')			 
 def parentElement = pomdata.parent
 println("Serialized parent element == \n" + groovy.xml.XmlUtil.serialize(parentElement))
 println("pomdata after== " + pomdata)
-
 // Serialize the modified XML back to a string
 def updatedXmlContent = groovy.xml.XmlUtil.serialize(pomdata)
 println("Updated xmlContent == \n" + updatedXmlContent)
-
 // Write the updated content back to the file
 writeFile(file: 'pom.xml', text: updatedXmlContent)
 
