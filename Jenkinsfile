@@ -39,7 +39,6 @@ pipeline {
            println("Properties update completed") 
 		 
            //pom dependencies update
-           pom.dependencies.dependency
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
