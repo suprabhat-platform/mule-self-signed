@@ -14,15 +14,24 @@ pipeline {
 	   println("pom with readMavenPom" + pom) 	
 	   println("pom.parent.version" + pom.parent.version) 		 
            pom.parent.version="8.8.8"
-	   println("pom.parent.version after update" + pom.parent.version) 
+	   println("pom.parent.version after update " + pom.parent.version) 
 		 
-	   println("pom.properties.'app.runtime'" + pom.properties.'app.runtime')  	 
+	   println("pom.properties.'app.runtime' before" + pom.properties.'app.runtime')  	 
 	   pom.properties.'app.runtime'="4.5.0"	 
-	   println("pom.properties.'app.runtime' after update" + pom.properties.'app.runtime')
+	   println("pom.properties.'app.runtime' after " + pom.properties.'app.runtime')
 
-	  println("pom.properties.'mule.maven.plugin.version'" + pom.properties.'mule.maven.plugin.version')  	 
+	  println("pom.properties.'mule.maven.plugin.version' before" + pom.properties.'mule.maven.plugin.version')  	 
 	  pom.properties.'mule.maven.plugin.version'="3.8.7"	 
-	  println("pom.properties.'mule.maven.plugin.version' after update" + pom.properties.'mule.maven.plugin.version')	 
+	  println("pom.properties.'mule.maven.plugin.version' after " + pom.properties.'mule.maven.plugin.version')	 
+
+	  println("pom.properties.muleHttpConnector before " + pom.properties.muleHttpConnector)  	 
+	  pom.properties.muleHttpConnector="1.9.2"	 
+	  println("pom.properties.muleHttpConnector after " + pom.properties.muleHttpConnector)
+
+	 println("pom.properties.'munit.version' before " + pom.properties.'munit.version')  	 
+	  pom.properties.'munit.version'="2.3.13"	 
+	  println("pom.properties.'munit.versionn' after " + pom.properties.'munit.version')
+
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
