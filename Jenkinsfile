@@ -16,7 +16,9 @@ pipeline {
            pom.parent.version="8.8.8"
 	   println("pom.parent.version after update" + pom.parent.version) 
 	   writeMavenPom model: pom 
-	   println("pom with writeMavenPom" + pom)	 
+	   println("pom with writeMavenPom" + pom)	
+	   println("pom.getDependencies()" + pom.getDependencies()) 
+		 
 	   	 
 	/*	 
             //import groovy.util.Node	
