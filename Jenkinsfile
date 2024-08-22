@@ -31,7 +31,7 @@ pipeline {
            /*	 
 	   def xmlContent = readFile('pom.xml')
 	   println("XML Content ==" + xmlContent) 
-	   def pom = new XmlParser().parseText(xmlContent)   
+	   def pom = new XmlParser().parse(xmlContent)   
 	   println("Parsed pom data == "+ pom)
 	   println("pom.parent == "+ pom.parent)	
            println("pom.parent.version[0] == "+ pom.parent.version[0])	
