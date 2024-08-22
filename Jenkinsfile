@@ -7,6 +7,18 @@ pipeline {
     stage('Checkout Source') {
       steps {
 	 script {     
+           def pom = ''
+	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
+	   println("Application checkout successful")	 
+	   pom = readMavenPom file: 'pom.xml'
+	   println("pom with readMavenPom" + pom) 	
+	   println("pom.parent.version" + pom.parent.version) 		 
+           pom.parent.version="8.8.8"
+	   println("pom.parent.version after update" + pom.parent.version) 
+	   writeMavenPom model: pom 
+	   println("pom with writeMavenPom" + pom)	 
+	   	 
+	/*	 
             //import groovy.util.Node	
 	    //import groovy.xml.*	 
            // def pom = ''		 
@@ -21,7 +33,9 @@ pipeline {
            def version = pom.version.replace("1.0.3","9.9.9")
 	   pom.version = version
 	   writeMavenPom model: pom
-	   println("pom data after == " + pom)		 
+	   println("pom data after == " + pom)	 */
+
+    
       /*     echo "*** pom.xml before changes ***"
           // sh "head pom.xml"
 	    powershell '''
