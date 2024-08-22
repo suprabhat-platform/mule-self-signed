@@ -69,6 +69,7 @@ pomdata.parent.version.replaceBody('9.9.9')
 
 def parentElement = pomdata.parent
 println("Serialized parent element == \n" + groovy.xml.XmlUtil.serialize(parentElement))
+println("pomdata after== " + pomdata)
 
 println("Update complete == ")
 
