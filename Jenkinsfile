@@ -43,9 +43,36 @@ pipeline {
        pom.dependencies.each { dependency ->
        if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-http-connector") {
         println("Dependency version before: " + dependency.version)
-        dependency.version = "1.7.5"
+        dependency.version = "1.9.2"
         println("Dependency version after: " + dependency.version)
+    } 
+    else if (dependency.groupId == "org.mule.modules" && dependency.artifactId == "mule-apikit-module") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "1.10.4"
+        println("Dependency version after: " + dependency.version)	    
+    }	 
+    else if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-vm-connectors") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "2.0.1"
+        println("Dependency version after: " + dependency.version)	    
+    }	 
+      else if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-sockets-connectors") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "1.2.4"
+        println("Dependency version after: " + dependency.version)	    
     }
+     else if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-kafka-connectors") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "4.7.5"
+        println("Dependency version after: " + dependency.version)	    
+    }
+    else if (dependency.groupId == "com.mulesoft.modules" && dependency.artifactId == "mule-secure-configuration-property-module") {
+        println("Dependency version before: " + dependency.version)
+        dependency.version = "1.2.7"
+        println("Dependency version after: " + dependency.version)	    
+    }	 else {
+	    println("No Dependencies to update")
+    }       
 }	 
 		 
 	   writeMavenPom model: pom 
