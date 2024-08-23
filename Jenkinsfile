@@ -49,15 +49,13 @@ pipeline {
 }	 
 		 
 	   writeMavenPom model: pom 
-	   println("pom with writeMavenPom" + pom)	
-         // def file = new File('test.txt')
-         // file.createNewFile()	
-	  sh 'git add .'
+	   println("pom with writeMavenPom" + pom)		
+  /*	  sh 'git add .'
 	  sh 'git commit -m "created test file"'
 	  println("Commit successful")
           sh "git push origin"	
-	  println("Changes pushed to codecloud")
-	 //  println("pom.getDependencies()" + pom.getDependencies()) 
+	  println("Changes pushed to codecloud") */
+
 		 
 	   	 
 	/*	 
