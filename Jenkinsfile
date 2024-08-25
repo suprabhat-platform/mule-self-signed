@@ -5,6 +5,10 @@ pipeline {
   stages {
 
     stage('Checkout Source') {
+	 environment {
+            GIT_REPO_NAME = "mule-self-signed"
+            GIT_USER_NAME = "suprabhat-platform"
+        }
       steps {
 	 script {     
            def pom = ''
