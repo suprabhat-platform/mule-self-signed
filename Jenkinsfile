@@ -76,7 +76,17 @@ pipeline {
 }	 
 		 
 	   writeMavenPom model: pom 
-	   println("pom with writeMavenPom" + pom)		
+	   println("pom with writeMavenPom" + pom)	
+          withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
+	      bat '''
+                    git config user.email "suprabhatcs@gmail.com"
+                    git config user.name "suprabhat-platform"
+                    git add pom.xml
+                    git commit -m "updated pom.xml"
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:master
+                '''
+	  }
+	  
   /*	  sh 'git add .'
 	  sh 'git commit -m "created test file"'
 	  println("Commit successful")
