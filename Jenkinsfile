@@ -74,9 +74,7 @@ pipeline {
         println("Dependency version before: " + dependency.version)
         dependency.version = "1.2.7"
         println("Dependency version after: " + dependency.version)	    
-    }	 else {
-	    println("No Dependencies to update")
-    }       
+    }     
 }	 
 		 
 	   writeMavenPom model: pom 
