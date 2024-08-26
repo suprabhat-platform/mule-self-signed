@@ -60,7 +60,7 @@ pipeline {
         dependency.version = "2.0.1"
         println("mule-vm-connectors Dependency version after: " + dependency.version)	    
     }	 
-     if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-sockets-connectors") {
+     if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-sockets-connector") {
         println("mule-sockets-connectors Dependency version before: " + dependency.version)
         dependency.version = "1.2.4"
         println("mule-sockets-connectors Dependency version after: " + dependency.version)	    
