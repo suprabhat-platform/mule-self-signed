@@ -46,34 +46,34 @@ pipeline {
 	  // Iterate through dependencies
        pom.dependencies.each { dependency ->
        if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-http-connector") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-http-connector Dependency version before: " + dependency.version)
         dependency.version = "1.9.2"
-        println("Dependency version after: " + dependency.version)
+        println("mule-http-connector Dependency version after: " + dependency.version)
     } 
      if (dependency.groupId == "org.mule.modules" && dependency.artifactId == "mule-apikit-module") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-apikit-module Dependency version before: " + dependency.version)
         dependency.version = "1.10.4"
-        println("Dependency version after: " + dependency.version)	    
+        println("mule-apikit-module Dependency version after: " + dependency.version)	    
     }	 
     if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-vm-connectors") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-vm-connectors Dependency version before: " + dependency.version)
         dependency.version = "2.0.1"
-        println("Dependency version after: " + dependency.version)	    
+        println("mule-vm-connectors Dependency version after: " + dependency.version)	    
     }	 
      if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-sockets-connectors") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-sockets-connectors Dependency version before: " + dependency.version)
         dependency.version = "1.2.4"
-        println("Dependency version after: " + dependency.version)	    
+        println("mule-sockets-connectors Dependency version after: " + dependency.version)	    
     }
      if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-kafka-connectors") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-kafka-connectors Dependency version before: " + dependency.version)
         dependency.version = "4.7.5"
-        println("Dependency version after: " + dependency.version)	    
+        println("mule-kafka-connectors Dependency version after: " + dependency.version)	    
     }
     if (dependency.groupId == "com.mulesoft.modules" && dependency.artifactId == "mule-secure-configuration-property-module") {
-        println("Dependency version before: " + dependency.version)
+        println("mule-secure-configuration-property-module Dependency version before: " + dependency.version)
         dependency.version = "1.2.7"
-        println("Dependency version after: " + dependency.version)	    
+        println("mule-secure-configuration-property-module Dependency version after: " + dependency.version)	    
     }     
 }	 
 		 
