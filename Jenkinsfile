@@ -15,7 +15,9 @@ pipeline {
            def pom = ''
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
-           git checkout -b ${BRANCH_NAME}		 
+           bat '''		 
+           git checkout -b ${BRANCH_NAME}
+	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
