@@ -8,13 +8,15 @@ pipeline {
 	 environment {
             GIT_REPO_NAME = "mule-self-signed"
             GIT_USER_NAME = "suprabhat-platform"
+	    BRANCH_NAME = 'seed-automation'
         }
       steps {
 	 script {     
            def pom = ''
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
-	   println("Application checkout successful")	
-		 
+	   println("Application master checkout successful")	
+           git checkout -b ${BRANCH_NAME}		 
+	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
 		 
@@ -85,7 +87,7 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add pom.xml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:master
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:${BRANCH_NAME}
                 '''
 	  }
 	  
