@@ -56,6 +56,24 @@
       <version>1.0.0</version>
       <classifier>mule-plugin</classifier>
     </dependency>
+    <dependency>
+      <groupId>com.mulesoft.connectors</groupId>
+      <artifactId>mule-salesforce-connectors</artifactId>
+      <version>1.0.0</version>
+      <classifier>mule-plugin</classifier>
+    </dependency> 
+    <dependency>
+      <groupId>com.mulesoft.connectors</groupId>
+      <artifactId>salesforce-core-common</artifactId>
+      <version>1.0.0</version>
+      <classifier>mule-plugin</classifier>
+    </dependency>  
+    <dependency>
+      <groupId>org.mulesoft.connectors</groupId>
+      <artifactId>mule.objectstore-connector</artifactId>
+      <version>1.0.0</version>
+      <classifier>mule-plugin</classifier>
+    </dependency>    
   </dependencies>
   <repositories>
     <repository>
