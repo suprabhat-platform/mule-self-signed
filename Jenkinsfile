@@ -81,7 +81,7 @@ pipeline {
      if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-salesforce-connector") {
         println("mule-salesforce-connector" Dependency version before: " + dependency.version)
         dependency.version = "10.20.2"
-        println("mule-salesforce-connector" Dependency version after: " + dependency.version)	    
+        println("mule-salesforce-connector Dependency version after: " + dependency.version)	    
     }  
      if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "salesforce-core-common") {
         println("salesforce-core-common Dependency version before: " + dependency.version)
