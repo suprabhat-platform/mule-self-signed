@@ -11,16 +11,19 @@ pipeline {
         }
       steps {
 	 script {     
+		 
            def pom = ''
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v1
+           git checkout -b seed-automation_v2
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
-		 
+
+	  if(pom.properties.'seed.version' == "1.0.12")
+	{	 
            //Parent pom version update	 
 	   println("pom.parent.version before" + pom.parent.version) 		 
            pom.parent.version="1.0.3"
@@ -85,10 +88,13 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add pom.xml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v1
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v2
                 '''
 	  }
-	  
+	}
+	else {
+	  println("Seed version is not matched")		
+	}
   /*	  sh 'git add .'
 	  sh 'git commit -m "created test file"'
 	  println("Commit successful")
