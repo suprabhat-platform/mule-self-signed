@@ -22,7 +22,7 @@ pipeline {
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
 
-	  if(pom.properties.'seed.version' == "1.0.12")
+	  if(pom.properties.'seed.version' == "1.0.11" || pom.properties.'seed.version' == "1.0.6" )
 	{	 
            //Parent pom version update	 
 	   println("pom.parent.version before" + pom.parent.version) 		 
