@@ -23,14 +23,11 @@ pipeline {
 		 
            //Parent pom version update	 
 	   println("pom.parent.version before" + pom.parent.version) 		 
-           pom.parent.version="8.8.8"
+           pom.parent.version="1.0.3"
 	   println("pom.parent.version after " + pom.parent.version) 
 
 	  //pom properties update	
 	   println("Properties update started") 	 
-	   println("pom.properties.'app.runtime' before " + pom.properties.'app.runtime')  	 
-	   pom.properties.'app.runtime'="4.5.0"	 
-	   println("pom.properties.'app.runtime' after " + pom.properties.'app.runtime')
 
 	   println("pom.properties.'mule.maven.plugin.version' before " + pom.properties.'mule.maven.plugin.version')  	 
 	   pom.properties.'mule.maven.plugin.version'="3.8.7"	 
