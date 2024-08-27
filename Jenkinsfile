@@ -22,7 +22,7 @@ pipeline {
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
 
-	  if(pom.properties.'seed.version' == "1.0.11" || pom.properties.'seed.version' == "1.0.6" )
+	if(pom.properties.'seed.version' == "1.0.11" || pom.properties.'seed.version' == "1.0.6" )
 	{	 
            //Parent pom version update	 
 	   println("pom.parent.version before" + pom.parent.version) 		 
@@ -78,6 +78,22 @@ pipeline {
         dependency.version = "1.2.7"
         println("mule-secure-configuration-property-module Dependency version after: " + dependency.version)	    
     }     
+     if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-salesforce-connector") {
+        println("mule-salesforce-connector" Dependency version before: " + dependency.version)
+        dependency.version = "10.20.2"
+        println("mule-salesforce-connector" Dependency version after: " + dependency.version)	    
+    }  
+     if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "salesforce-core-common") {
+        println("salesforce-core-common Dependency version before: " + dependency.version)
+        dependency.version = "1.0.3"
+        println("salesforce-core-common Dependency version after: " + dependency.version)	    
+    }  
+     if (dependency.groupId == "org.mule.connectors" && dependency.artifactId == "mule-objectstore-connector") {
+        println("mule-objectstore-connector Dependency version before: " + dependency.version)
+        dependency.version = "1.2.2"
+        println("mule-objectstore-connector Dependency version after: " + dependency.version)	    
+    }  	       	       
+	       
 }	 
 		 
 	   writeMavenPom model: pom 
