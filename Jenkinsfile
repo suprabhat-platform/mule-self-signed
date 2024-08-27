@@ -32,6 +32,10 @@ pipeline {
 	  //pom properties update	
 	   println("Properties update started") 	 
 
+           println(""pom.properties.'seed.version' before " + pom.properties.'seed.version')  	 
+	   pom.properties.'seed.version'="1.0.12"	 
+	   println("pom.properties.'seed.version' after " + pom.properties.'seed.version')
+		
 	   println("pom.properties.'mule.maven.plugin.version' before " + pom.properties.'mule.maven.plugin.version')  	 
 	   pom.properties.'mule.maven.plugin.version'="3.8.7"	 
 	   println("pom.properties.'mule.maven.plugin.version' after " + pom.properties.'mule.maven.plugin.version')	 
