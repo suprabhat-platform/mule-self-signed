@@ -131,8 +131,9 @@ pipeline {
                             common: commonValues.join(', ')
                         ]
                     ]	
-	  println("updatedYaml" + updatedYaml)		
-	  writeFile file: yamlFile, text: updatedYaml
+	  println("updatedYaml" + updatedYaml)	
+	  def newYamlText = writeYaml(content: updatedYaml)
+	  writeFile file: yamlFile, text: newYamlText
 	   
           echo "YAML file updated."
 		
