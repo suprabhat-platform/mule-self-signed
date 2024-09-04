@@ -102,11 +102,26 @@ pipeline {
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
+	   
+	   //dwl changes 
+	   def filePath = 'masking.dwl'
+	   writeFile file: filePath, text: ''
+	   // Define your DataWeave code
+		def dataWeaveCode = '''%dw 2.0
+		output application/json
+		---
+		{
+			message: "Hello, DataWeave!"
+		}'''
+	   writeFile file: filePath, text: dataWeaveCode
+	   println "DataWeave code added to ${filePath}"
+	   
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
                     git add pom.xml
+					git add masking.dwl
                     git commit -m "updated pom.xml"
                     git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v10
                 '''
