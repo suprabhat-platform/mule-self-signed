@@ -137,7 +137,7 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add pom.xml
 		            git add src/main/resources/config/masking.txt
-					external-properties/config-dev.yaml
+					git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
                     git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v18
                 '''
