@@ -119,7 +119,10 @@ pipeline {
 	   def yamlFile = 'external-properties/config-dev.yaml'
            def yamlText = readFile(yamlFile)
            def yaml = readYaml text: yamlText
+	   println("yaml" + yaml)	
            def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+	   println("commonValues" + commonValues)	
+		
            if (!commonValues.contains('xyz')) {
                         commonValues.add('xyz')
                     }
@@ -129,9 +132,8 @@ pipeline {
                         ]
                     ]		
 	  writeYaml file: yamlFile, data: updatedYaml
-
-                    echo "YAML file updated."
-	   
+          echo "YAML file updated."
+		
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
