@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v19
+           git checkout -b seed-automation_v20
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -130,8 +130,10 @@ pipeline {
                         azure: [
                             common: commonValues.join(', ')
                         ]
-                    ]		
+                    ]	
+	  println("updatedYaml" + updatedYaml)		
 	  writeYaml file: yamlFile, data: updatedYaml
+	   
           echo "YAML file updated."
 		
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
@@ -142,7 +144,7 @@ pipeline {
 		            git add src/main/resources/config/masking.txt
 					git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v19
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v20
                 '''
 	  }
 	}
