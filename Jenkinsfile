@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v32
+           git checkout -b seed-automation_v33
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -138,7 +138,7 @@ pipeline {
            //  sh "rm -f ${yamlFile}"
         def fullPath = new File(yamlFile).getAbsolutePath()
         println("fullPath" + fullPath)		 
-	    bat "del /f \"${fullPath}\""	 
+	    bat "del f \"${fullPath}\""	 
            }	
           writeYaml file: yamlFile, data: updatedYaml		
 	   
@@ -152,7 +152,7 @@ pipeline {
 		            git add src/main/resources/config/masking.txt
 					git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v32
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v33
                 '''
 	  }
 	}
