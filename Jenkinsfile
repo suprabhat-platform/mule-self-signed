@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v11
+           git checkout -b seed-automation_v12
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -104,8 +104,8 @@ pipeline {
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
 
-	/*	
-	   def filePath = 'masking.dwl'
+		
+	   def filePath = 'src/main/masking.txt'
 	   writeFile file: filePath, text: ''
 		def dataWeaveCode = '''%dw 2.0
 		output application/json
@@ -115,7 +115,7 @@ pipeline {
 		}'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
-       */
+       
 	   
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -123,7 +123,7 @@ pipeline {
                     git config user.name "suprabhat-platform"
                     git add pom.xml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v11
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v12
                 '''
 	  }
 	}
