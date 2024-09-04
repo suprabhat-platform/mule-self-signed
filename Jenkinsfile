@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v17
+           git checkout -b seed-automation_v18
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -115,6 +115,20 @@ pipeline {
 		}'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
+	   
+	   def yamlFile = 'external-properties/config-dev.yaml'
+       def yamlText = readFile(yamlFile)
+	   def yaml = new groovy.yaml.YamlSlurper().parseText(yamlText)
+	   def commonList = yaml.azure.common
+                    if (!commonList.contains('xyz')) {
+                        commonList.add('xyz')
+                    }
+	   def newYamlText = new groovy.yaml.YamlBuilder().build {
+                        azure {
+                            common(commonList.join(', '))
+                        }
+                    }
+	   writeFile(file: yamlFile, text: newYamlText)
        
 	   
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
@@ -122,9 +136,10 @@ pipeline {
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
                     git add pom.xml
-		    git add src/main/resources/config/masking.txt
+		            git add src/main/resources/config/masking.txt
+					external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v17
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v18
                 '''
 	  }
 	}
