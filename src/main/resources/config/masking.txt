@@ -1,0 +1,12 @@
+%dw 2.0
+output application/xml
+ns ns0 urn:example
+---
+ns0:customers @("xmlns" : "urn:example") : 
+    payload map ((customer) -> {
+        ns0:customer : {
+            ns0:id: customer.id,
+            ns0:name: customer.name,
+            ns0:email: customer.email
+        }
+    })
