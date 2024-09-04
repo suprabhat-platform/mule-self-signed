@@ -97,9 +97,9 @@ pipeline {
         println("mule-objectstore-connector Dependency version before: " + dependency.version)
         dependency.version = "1.2.2"
         println("mule-objectstore-connector Dependency version after: " + dependency.version)	    
-    }  	    */
+    }  	    
 	       
-}	 
+}	 */
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
