@@ -117,19 +117,20 @@ pipeline {
 	   println "DataWeave code added to ${filePath}"
 	   
 	   def yamlFile = 'external-properties/config-dev.yaml'
-       def yamlText = readFile(yamlFile)
-	   def yaml = new groovy.yaml.YamlSlurper().parseText(yamlText)
-	   def commonList = yaml.azure.common
-                    if (!commonList.contains('xyz')) {
-                        commonList.add('xyz')
+           def yamlText = readFile(yamlFile)
+           def yaml = readYaml text: yamlText
+           def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+           if (!commonValues.contains('xyz')) {
+                        commonValues.add('xyz')
                     }
-	   def newYamlText = new groovy.yaml.YamlBuilder().build {
-                        azure {
-                            common(commonList.join(', '))
-                        }
-                    }
-	   writeFile(file: yamlFile, text: newYamlText)
-       
+           def updatedYaml = [
+                        azure: [
+                            common: commonValues.join(', ')
+                        ]
+                    ]		
+	  writeYaml file: yamlFile, data: updatedYaml
+
+                    echo "YAML file updated."
 	   
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
