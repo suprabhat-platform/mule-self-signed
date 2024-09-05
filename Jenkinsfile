@@ -116,35 +116,30 @@ pipeline {
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
 	   
-	   def yamlFile = 'external-properties/config-dev.yaml'
-           def yamlText = readFile(yamlFile)
-           def yaml = readYaml text: yamlText
-	   println("yaml" + yaml)	
-           def commonValues = yaml.azure.common.split(',').collect { it.trim() }
-	   println("commonValues" + commonValues)	
-		
-           if (!commonValues.contains('xyz')) {
-                        commonValues.add('xyz')
-                    }
-           def updatedYaml = [
-                        azure: [
-                            common: commonValues.join(', ')
-                        ]
-                    ]	
-	  println("updatedYaml" + updatedYaml)	
-	  //def newYamlText = writeYaml(content: updatedYaml)
-	  //writeFile file: yamlFile, text: newYamlText
-		
-	/* if (fileExists(yamlFile)) {
-           //  sh "rm -f ${yamlFile}"
-        def fullPath = new File(yamlFile).getAbsolutePath()
-        println("fullPath" + fullPath)		 
-	    bat "del /f \${fullPath}\"	 
-           }	*/
-		
-          writeYaml file: yamlFile, data: updatedYaml		
-	   
-          echo "YAML file updated."
+	  def yamlFile = 'external-properties/config-dev.yaml'
+
+	// Read the existing YAML content
+	def yamlText = readFile(yamlFile)
+	def yaml = readYaml text: yamlText
+	println("yaml: " + yaml)
+	
+	def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+	println("commonValues: " + commonValues)
+	
+	// Update the values without deleting the file
+	if (!commonValues.contains('xyz')) {
+	    commonValues.add('xyz')
+	}
+	
+	// Update only the specific part of the YAML file
+	yaml.azure.common = commonValues.join(', ')
+	
+	println("Updated yaml: " + yaml)
+	
+	// Write the updated content back to the same file
+	writeYaml file: yamlFile, data: yaml
+	echo "YAML file updated."
+
 		
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
