@@ -134,12 +134,14 @@ pipeline {
 	  println("updatedYaml" + updatedYaml)	
 	  //def newYamlText = writeYaml(content: updatedYaml)
 	  //writeFile file: yamlFile, text: newYamlText
-	 if (fileExists(yamlFile)) {
+		
+	/* if (fileExists(yamlFile)) {
            //  sh "rm -f ${yamlFile}"
         def fullPath = new File(yamlFile).getAbsolutePath()
         println("fullPath" + fullPath)		 
 	    bat "del /f \${fullPath}\"	 
-           }	
+           }	*/
+		
           writeYaml file: yamlFile, data: updatedYaml		
 	   
           echo "YAML file updated."
