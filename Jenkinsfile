@@ -138,7 +138,7 @@ pipeline {
            //  sh "rm -f ${yamlFile}"
         def fullPath = new File(yamlFile).getAbsolutePath()
         println("fullPath" + fullPath)		 
-	    bat "del /f \"${fullPath}\""	 
+	    bat "del /f \${fullPath}\"	 
            }	
           writeYaml file: yamlFile, data: updatedYaml		
 	   
