@@ -142,13 +142,13 @@ pipeline {
                    def yamlFile = 'external-properties/config-dev.yaml'
 	         // PowerShell script to check and add 'xyz' if it's not present in the common list
                     bat """
-                    PowerShell -Command "
+                    powershell -Command "
                     \$yamlContent = Get-Content '${yamlFile}'; 
                     if (-not \$yamlContent -match 'xyz') { 
                         \$yamlContent = \$yamlContent -replace '(common: .*)', '\$1, xyz'; 
                         Set-Content '${yamlFile}' -Value \$yamlContent 
                     }"
-                    """	
+                    """
 		
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
