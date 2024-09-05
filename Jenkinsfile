@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v37
+           git checkout -b seed-automation_v38
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -115,36 +115,40 @@ pipeline {
 		}'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
-	   
-	def yamlFile = 'external-properties/config-dev.yaml'
 
+	/*	
+	def yamlFile = 'external-properties/config-dev.yaml'
 	// Read the existing YAML content
 	if (fileExists(yamlFile)) {
 	    echo "YAML file exists, reading content."
 	    def yamlText = readFile(yamlFile)
 	    def yaml = readYaml text: yamlText
-	    println("yaml: " + yaml)
-	
+	    println("yaml: " + yaml)	
 	    // Process and update the specific part of the YAML
 	    def commonValues = yaml.azure.common.split(',').collect { it.trim() }
-	    println("commonValues: " + commonValues)
-	
+	    println("commonValues: " + commonValues)	
 	    if (!commonValues.contains('xyz')) {
 	        commonValues.add('xyz')
-	    }
-	
+	    }	
 	    // Update the existing YAML structure
 	    yaml.azure.common = commonValues.join(', ')
-	    println("Updated yaml: " + yaml)
-	
+	    println("Updated yaml: " + yaml)	
 	    // Write the updated content back to the file
 	    writeYaml file: yamlFile, data: yaml
 	    echo "YAML file updated."
 	} else {
 	    echo "YAML file does not exist: ${yamlFile}"
-	}
-
-
+	}  */
+                   def yamlFile = 'external-properties/config-dev.yaml'
+	         // PowerShell script to check and add 'xyz' if it's not present in the common list
+                    bat """
+                    PowerShell -Command "
+                    \$yamlContent = Get-Content '${yamlFile}'; 
+                    if (-not \$yamlContent -match 'xyz') { 
+                        \$yamlContent = \$yamlContent -replace '(common: .*)', '\$1, xyz'; 
+                        Set-Content '${yamlFile}' -Value \$yamlContent 
+                    }"
+                    """	
 		
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -154,7 +158,7 @@ pipeline {
 		            git add src/main/resources/config/masking.txt
 					git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v37
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v38
                 '''
 	  }
 	}
