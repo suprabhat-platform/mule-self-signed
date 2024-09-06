@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v40
+           git checkout -b seed-automation_v41
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -30,7 +30,7 @@ pipeline {
 	   println("pom.parent.version after " + pom.parent.version) 
 
 	  //pom properties update	
-          /*		
+          		
 	   println("Properties update started") 	 
 
            println("pom.properties.'seed.version' before " + pom.properties.'seed.version')  	 
@@ -99,7 +99,7 @@ pipeline {
         println("mule-objectstore-connector Dependency version after: " + dependency.version)	    
     }  	    
 	       
-}	 */
+}	 
 		 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
@@ -148,7 +148,7 @@ pipeline {
 		            git add src/main/resources/config/masking.txt
 					git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v40
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v41
                 '''
 	  }
 	}
