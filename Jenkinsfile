@@ -100,7 +100,18 @@ pipeline {
     }  	    
 	       
 }	 
-		 
+		// Remove a specific dependency
+	def dependencyToRemove = pom.dependencies.find { dependency ->
+	    dependency.groupId == "com.mulesoft.modules" && dependency.artifactId == "mule-secure-configuration-property-module-testing"
+	}
+	
+	if (dependencyToRemove) {
+	    println("Removing mule-db-connector dependency...")
+	    pom.dependencies.remove(dependencyToRemove)
+	    println("mule-db-connector dependency removed.")
+	} else {
+	    println("mule-db-connector dependency not found.")
+	}	 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
 
