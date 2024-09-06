@@ -126,38 +126,55 @@ pipeline {
 		}'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
-
 		
-	def yamlFile = 'external-properties/config-dev.yaml'
-	// Read the existing YAML content
-	if (fileExists(yamlFile)) {
-	    echo "YAML file exists, reading content."
-	    def yamlText = readFile(yamlFile)
-	    def yaml = readYaml text: yamlText
-	    println("yaml: " + yaml)	
-	    // Process and update the specific part of the YAML
-	    def commonValues = yaml.azure.common.split(',').collect { it.trim() }
-	    println("commonValues: " + commonValues)	
-	    if (!commonValues.contains('xyz')) {
-	        commonValues.add('xyz')
-	    }	
-	    // Update the existing YAML structure
-	    yaml.azure.common = commonValues.join(', ')
-	    println("Updated yaml: " + yaml)	
-	    // Write the updated content back to the file
-	    writeYaml file: yamlFile, data: yaml, overwrite: true
-	    echo "YAML file updated."
+        def yamlDir = 'external-properties/'
+	def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
+	println("yamlFiles.size " + yamlFiles.size()) 
+	println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
+        println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
+	if (yamlFiles.size() == 0) {
+	    echo "No YAML files found in directory: ${yamlDir}"		
 	} else {
-	    echo "YAML file does not exist: ${yamlFile}"
-	}  
-		
+	    yamlFiles.each { file ->
+	        def yamlFile = file.path
+	        echo "Processing YAML file: ${yamlFile}"
+	
+	        if (fileExists(yamlFile)) {
+	            def yamlText = readFile(yamlFile)
+	            def yaml = readYaml text: yamlText
+	            println("yaml: " + yaml)
+	
+	            // Check if the 'azure.common' field exists and is not null
+	            if (yaml.azure?.common) {
+	                def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+	                println("commonValues: " + commonValues)
+	
+	                if (!commonValues.contains('xyz')) {
+	                    commonValues.add('xyz')
+	                }
+	
+	                // Update the existing YAML structure
+	                yaml.azure.common = commonValues.join(', ')
+	                println("Updated yaml: " + yaml)
+	
+	                // Write the updated content back to the file
+	                writeYaml file: yamlFile, data: yaml, overwrite: true
+	                echo "YAML file updated: ${yamlFile}"
+	            } else {
+	                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
+	            }
+	        } else {
+	            echo "YAML file does not exist: ${yamlFile}"
+	        }
+	    }
+	}	
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
-                    git add pom.xml
-		            git add src/main/resources/config/masking.txt
-					git add external-properties/config-dev.yaml
+                    git add .
+		    //git add src/main/resources/config/masking.txt
+		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
                     git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v42
                 '''
