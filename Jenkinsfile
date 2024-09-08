@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v50
+           git checkout -b seed-automation_v51
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -213,6 +213,34 @@ if (yamlFiles.size() == 0) {
     }
 }
 	
+{
+    // Define the file path (adjust as needed for your workspace)
+    def xmlFile = 'globals.xml'
+
+    // Read the XML content from the file
+    def xmlContent = readFile(file: xmlFile)
+
+    // Parse the XML content
+    def xmlParser = new XmlParser()
+    def rootNode = xmlParser.parseText(xmlContent)
+
+    // Remove global-property elements with name='seed-automation'
+    rootNode.'global-property'.findAll { it.@name == 'seed-automation' }.each {
+        rootNode.remove(it)
+    }
+
+    // Convert the updated XML back to string
+    def writer = new StringWriter()
+    new XmlNodePrinter(new PrintWriter(writer)).print(rootNode)
+    def updatedXml = writer.toString()
+
+    // Print the updated XML to the console (for logging/debugging)
+    echo updatedXml
+
+    // Optionally, write the updated XML back to the file or a new file
+    writeFile file: xmlFile, text: updatedXml
+}
+	
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
@@ -221,7 +249,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v50
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v51
                 '''
 	  }
 	}
