@@ -1,6 +1,7 @@
 #This is the Dev file
 api:
   name: "mule-self-signed"
+  id: '123'
 
 azure:
   common: abcd, efgh, ijkl 
