@@ -213,9 +213,9 @@ if (yamlFiles.size() == 0) {
     }
 }
 	
-{
+
     // Define the file path (adjust as needed for your workspace)
-    def xmlFile = 'globals.xml'
+    def xmlFile = 'src/main/mule/globals.xml'
 
     // Read the XML content from the file
     def xmlContent = readFile(file: xmlFile)
@@ -239,7 +239,6 @@ if (yamlFiles.size() == 0) {
 
     // Optionally, write the updated XML back to the file or a new file
     writeFile file: xmlFile, text: updatedXml
-}
 	
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
