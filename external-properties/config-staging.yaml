@@ -1,3 +1,8 @@
+api:
+  name: "mule-self-signed"
+
+#Temp comment to test this
+
 azure:
   common: abcd, efgh, ijkl 
 
