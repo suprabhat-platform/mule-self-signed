@@ -217,15 +217,16 @@ if (yamlFiles.size() == 0) {
     // Define the file path (adjust as needed for your workspace)
     def xmlFile = 'src/main/mule/globals.xml'
 
-    // Read the XML content from the file
+// Read the XML content from the file
     def xmlContent = readFile(file: xmlFile)
 
     // Parse the XML content
     def xmlParser = new XmlParser()
     def rootNode = xmlParser.parseText(xmlContent)
 
-    // Remove global-property elements with name='seed-automation'
-    rootNode.'global-property'.findAll { it.@name == 'seed-automation' }.each {
+    // Find and remove the global-property element with name='seed-automation'
+    def globalProperties = rootNode.children().findAll { it.name() == 'global-property' }
+    globalProperties.findAll { it.@name == 'seed-automation' }.each {
         rootNode.remove(it)
     }
 
