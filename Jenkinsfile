@@ -129,6 +129,7 @@ pipeline {
 		
         def yamlDir = 'external-properties/'
 	def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
+	/*	
 	println("yamlFiles.size " + yamlFiles.size()) 
 	println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
         println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
@@ -167,7 +168,51 @@ pipeline {
 	            echo "YAML file does not exist: ${yamlFile}"
 	        }
 	    }
-	}	
+	}	 */
+
+println("yamlFiles.size " + yamlFiles.size())
+println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
+println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
+
+if (yamlFiles.size() == 0) {
+    echo "No YAML files found in directory: ${yamlDir}"
+} else {
+    yamlFiles.each { file ->
+        def yamlFile = file.path
+        echo "Processing YAML file: ${yamlFile}"
+
+        if (fileExists(yamlFile)) {
+            def yamlText = readFile(yamlFile)
+
+            // Parse YAML manually using regex or direct string manipulation
+            def yaml = readYaml text: yamlText
+
+            // Check if the 'azure.common' field exists and is not null
+            if (yaml.azure?.common) {
+                def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+                println("commonValues: " + commonValues)
+
+                if (!commonValues.contains('xyz')) {
+                    commonValues.add('xyz')
+                }
+
+                // Replace only the relevant field in the original text
+                def updatedYamlText = yamlText.replaceAll(/(azure:\s*common:\s*)[^\n]*/, { match ->
+                    return "${match[1]}${commonValues.join(', ')}"
+                })
+
+                // Write the updated content back to the file without removing quotes or comments
+                writeFile file: yamlFile, text: updatedYamlText
+                echo "YAML file updated: ${yamlFile}"
+            } else {
+                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
+            }
+        } else {
+            echo "YAML file does not exist: ${yamlFile}"
+        }
+    }
+}
+	
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
