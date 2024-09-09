@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v75
+           git checkout -b seed-automation_v76
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -143,9 +143,10 @@ ns0:customers @("xmlns" : "urn:example") :
                     def filteredContent = gfileContent.findAll { 
                         !(it.trim().startsWith('<global-property') && it.contains('seed-automation'))
                     }
-                    
+
+		    def fixedContent = filteredContent.replaceAll('\r\n', '\n')
                     // Write the filtered content back to the file
-                    writeFile file: globalsfilePath, text: filteredContent.join(System.lineSeparator())
+                    writeFile file: globalsfilePath, text: fixedContent
 
 		
         def yamlDir = 'external-properties/'
@@ -269,7 +270,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v75
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v76
                 '''
 	  }
 	}
