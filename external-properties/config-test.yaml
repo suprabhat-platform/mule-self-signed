@@ -1,2 +1,3 @@
 azure:
-  common: abcd, efgh, ggd, ijkl, xyz, asdf
+  vault:
+    common: salesforceproperties, commonproperties, maskingproperties, vmproperties
