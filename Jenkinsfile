@@ -116,9 +116,9 @@ pipeline {
 	   println("pom with writeMavenPom" + pom)	
 
 		
-	   def filePath = 'src/main/resources/config/masking.txt'
+	   def filePath = 'src/main/resources/config/masking.dwl'
 	   writeFile file: filePath, text: ''
-		def dataWeaveCode = '''%dw 2.0
+	   def dataWeaveCode = '''%dw 2.0
 output application/xmlcgbdfgb
 ns ns0 urn:exampleghdgbt
 ---
