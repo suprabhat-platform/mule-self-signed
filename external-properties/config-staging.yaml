@@ -4,7 +4,8 @@ api:
 #Temp comment to test this
 
 azure:
-  common: abcd, efgh, ijkl 
+  vault:
+    common: salesforceproperties, commonproperties, maskingproperties
 
 hello:
   test: sdsd, gdd, dgd
