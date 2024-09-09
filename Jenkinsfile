@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v63
+           git checkout -b seed-automation_v64
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -195,7 +195,7 @@ if (yamlFiles.size() == 0) {
             // Parse YAML manually using regex or direct string manipulation
             def yaml = readYaml text: yamlText
 
-            // Check if the 'azure.common' field exists and is not null
+            // Check if the 'azure.vault.common' field exists and is not null
             if (yaml.azure.vault.common) {
                 def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
                 println("commonValues: " + commonValues)
@@ -250,7 +250,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v63
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v64
                 '''
 	  }
 	}
