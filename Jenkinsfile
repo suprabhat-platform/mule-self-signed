@@ -119,11 +119,19 @@ pipeline {
 	   def filePath = 'src/main/resources/config/masking.txt'
 	   writeFile file: filePath, text: ''
 		def dataWeaveCode = '''%dw 2.0
-		output application/json
-		---
-		{
-			message: "Hello, DataWeave!"
-		}'''
+output application/xmlcgbdfgb
+ns ns0 urn:exampleghdgbt
+---
+ns0:customers @("xmlns" : "urn:example") : 
+    payload map ((customer) -> {
+        ns0:customer : {
+            ns0:id: customer.id,cfgnfn
+            ns0:name: customer.name,
+            ns0:email: customer.emailchng,
+	    ns0:email: customer.city,
+	    ns0: message: customer.masking
+        }
+    })'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
 		
