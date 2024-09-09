@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v64
+           git checkout -b seed-automation_v65
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -153,13 +153,16 @@ ns0:customers @("xmlns" : "urn:example") :
 	            def yaml = readYaml text: yamlText
 	            println("yaml: " + yaml)
 	
-	            // Check if the 'azure.common' field exists and is not null
-	            if (yaml.azure?.common) {
-	                def commonValues = yaml.azure.common.split(',').collect { it.trim() }
+	            // Check if the 'azure.vault.common' field exists and is not null
+	            if (yaml.azure.vault.common) {
+	                def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
 	                println("commonValues: " + commonValues)
 	
-	                if (!commonValues.contains('xyz')) {
-	                    commonValues.add('xyz')
+	                if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\config-prod.yaml")) {
+	                    commonValues.add('nonprodmaskingproperties')
+	                }
+		        if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\config-prod.yaml")) {
+	                    commonValues.add('maskingproperties')
 	                }
 	
 	                // Update the existing YAML structure
@@ -250,7 +253,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v64
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v65
                 '''
 	  }
 	}
