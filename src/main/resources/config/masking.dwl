@@ -1,12 +1,12 @@
 %dw 2.0
-output application/xml
-ns ns0 urn:example
+output application/xmlcgbdfgb
+ns ns0 urn:exampleghdgbt
 ---
 ns0:customers @("xmlns" : "urn:example") : 
     payload map ((customer) -> {
         ns0:customer : {
-            ns0:id: customer.id,
+            ns0:id: customer.id,cfgnfn
             ns0:name: customer.name,
-            ns0:email: customer.email
+            ns0:email: customer.emailchng
         }
     })
