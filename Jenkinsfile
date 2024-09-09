@@ -213,33 +213,27 @@ if (yamlFiles.size() == 0) {
     }
 }
 	
-
+/*
     // Define the file path (adjust as needed for your workspace)
     def xmlFile = 'src/main/mule/globals.xml'
-
- def xmlContent = readFile(file: xmlFile)
-
+    def xmlContent = readFile(file: xmlFile)
         // Parse the XML content inside the script block to avoid serialization issues
         def xmlParser = new XmlParser()
         def rootNode = xmlParser.parseText(xmlContent)
-
         // Find and remove the global-property element with name='seed-automation'
         def globalProperties = rootNode.children().findAll { it.name() == 'global-property' }
         globalProperties.findAll { it.@name == 'seed-automation' }.each {
             rootNode.remove(it)
         }
-
         // Convert the updated XML back to string
         def writer = new StringWriter()
         new XmlNodePrinter(new PrintWriter(writer)).print(rootNode)
         def updatedXml = writer.toString()
-
         // Print the updated XML to the console (for logging/debugging)
         echo updatedXml
-
         // Write the updated XML back to the file or a new file
         writeFile file: xmlFile, text: updatedXml
-	
+	*/
           withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
