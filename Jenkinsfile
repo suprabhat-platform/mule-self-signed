@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v67
+           git checkout -b seed-automation_v68
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -203,10 +203,10 @@ if (yamlFiles.size() == 0) {
                 def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
                 println("commonValues: " + commonValues)
 
-                if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\config-prod.yaml")) {
+                if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
                     commonValues.add('nonprodmaskingproperties')
                 }
-		 if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\config-prod.yaml")) {
+		 if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
                     commonValues.add('maskingproperties')
                 } 
 
@@ -256,7 +256,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v67
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v68
                 '''
 	  }
 	}
