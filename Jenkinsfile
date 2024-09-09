@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v63
+           git checkout -b seed-automation_v64
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -116,14 +116,22 @@ pipeline {
 	   println("pom with writeMavenPom" + pom)	
 
 		
-	   def filePath = 'src/main/resources/config/masking.txt'
+	   def filePath = 'src/main/resources/config/masking.dwl'
 	   writeFile file: filePath, text: ''
-		def dataWeaveCode = '''%dw 2.0
-		output application/json
-		---
-		{
-			message: "Hello, DataWeave!"
-		}'''
+	   def dataWeaveCode = '''%dw 2.0
+output application/xmlcgbdfgb
+ns ns0 urn:exampleghdgbt
+---
+ns0:customers @("xmlns" : "urn:example") : 
+    payload map ((customer) -> {
+        ns0:customer : {
+            ns0:id: customer.id,cfgnfn
+            ns0:name: customer.name,
+            ns0:email: customer.emailchng,
+	    ns0:email: customer.city,
+	    ns0: message: customer.masking
+        }
+    })'''
 	   writeFile file: filePath, text: dataWeaveCode
 	   println "DataWeave code added to ${filePath}"
 		
@@ -187,7 +195,7 @@ if (yamlFiles.size() == 0) {
             // Parse YAML manually using regex or direct string manipulation
             def yaml = readYaml text: yamlText
 
-            // Check if the 'azure.common' field exists and is not null
+            // Check if the 'azure.vault.common' field exists and is not null
             if (yaml.azure.vault.common) {
                 def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
                 println("commonValues: " + commonValues)
@@ -242,7 +250,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v63
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v64
                 '''
 	  }
 	}
