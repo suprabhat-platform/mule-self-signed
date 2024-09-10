@@ -25,7 +25,7 @@ pipeline {
 	   def isSfSeedVersion = false		 
 	     pom.dependencies.each { dependency ->
 	       if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-salesforce-connectors") {
-	        def isSfSeedVersion = true
+	          isSfSeedVersion = true
 	      } 
 	    }	 
 	    println("isSfSeedVersion" + isSfSeedVersion) 
