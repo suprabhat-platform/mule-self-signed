@@ -7,6 +7,8 @@ ns0:customers @("xmlns" : "urn:example") :
         ns0:customer : {
             ns0:id: customer.id,cfgnfn
             ns0:name: customer.name,
-            ns0:email: customer.emailchng
+            ns0:email: customer.emailchng,
+	    ns0:email: customer.city,
+	    ns0: message: customer.masking
         }
     })
