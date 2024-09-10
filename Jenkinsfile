@@ -21,7 +21,15 @@ pipeline {
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
-
+  
+	   def isSfSeedVersion = false		 
+	     pom.dependencies.each { dependency ->
+	       if (dependency.groupId == "com.mulesoft.connectors" && dependency.artifactId == "mule-salesforce-connectors") {
+	        def isSfSeedVersion = true
+	      } 
+	    }	 
+	    println("isSfSeedVersion" + isSfSeedVersion) 
+		 
 	if(pom.properties.'seed.version' == "1.0.11" || pom.properties.'seed.version' == "1.0.6" )
 	{	 
            //Parent pom version update	 
@@ -48,6 +56,14 @@ pipeline {
 	   println("pom.properties.'munit.version' before " + pom.properties.'munit.version')  	 
 	   pom.properties.'munit.version'="2.3.13"	 
 	   println("pom.properties.'munit.versionn' after " + pom.properties.'munit.version')
+
+	   println("pom.properties.seed.version before " + pom.properties.'seed.version') 
+           if(isSfSeedVersion)	
+      	   pom.properties.'seed.version'="1.0.7"
+	   else 
+	   pom.properties.'seed.version'="1.0.12"	   
+	   println("pom.properties.seed.version after " + pom.properties.'seed.version')	
+		
            println("Properties update completed") 
 		 
            //pom dependencies update
