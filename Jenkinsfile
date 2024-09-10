@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v80
+           git checkout -b seed-automation_v81
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -118,15 +118,15 @@ pipeline {
 }	 
 		// Remove a specific dependency
 	def dependencyToRemove = pom.dependencies.find { dependency ->
-	    dependency.groupId == "com.mulesoft.modules" && dependency.artifactId == "mule-secure-configuration-property-module-testing"
+	    dependency.groupId == "com.mulesoft.modules" && dependency.artifactId == "mule-latency-connector"
 	}
 	
 	if (dependencyToRemove) {
-	    println("Removing mule-db-connector dependency...")
+	    println("Removing mule-latency-connector dependency...")
 	    pom.dependencies.remove(dependencyToRemove)
-	    println("mule-db-connector dependency removed.")
+	    println("mule-latency-connector dependency removed.")
 	} else {
-	    println("mule-db-connector dependency not found.")
+	    println("mule-latency-connector dependency not found.")
 	}	 
 	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
@@ -286,7 +286,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v80
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v81
                 '''
 	  }
 	}
