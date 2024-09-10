@@ -58,7 +58,7 @@ pipeline {
 	   println("pom.properties.'munit.versionn' after " + pom.properties.'munit.version')
 
 	   println("pom.properties.seed.version before " + pom.properties.'seed.version') 
-           if(isSfSeedVersion)	
+           if((pom.properties.'seed.version' == "1.0.6") && isSfSeedVersion)	
       	   pom.properties.'seed.version'="1.0.7"
 	   else 
 	   pom.properties.'seed.version'="1.0.12"	   
