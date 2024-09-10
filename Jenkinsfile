@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v82
+           git checkout -b seed-automation_v83
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -167,49 +167,6 @@ ns0:customers @("xmlns" : "urn:example") :
 		
         def yamlDir = 'external-properties/'
 	def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
-	/*	
-	println("yamlFiles.size " + yamlFiles.size()) 
-	println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
-        println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
-	if (yamlFiles.size() == 0) {
-	    echo "No YAML files found in directory: ${yamlDir}"		
-	} else {
-	    yamlFiles.each { file ->
-	        def yamlFile = file.path
-	        echo "Processing YAML file: ${yamlFile}"
-	
-	        if (fileExists(yamlFile)) {
-	            def yamlText = readFile(yamlFile)
-	            def yaml = readYaml text: yamlText
-	            println("yaml: " + yaml)
-	
-	            // Check if the 'azure.vault.common' field exists and is not null
-	            if (yaml.azure.vault.common) {
-	                def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
-	                println("commonValues: " + commonValues)
-	
-	                if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\config-prod.yaml")) {
-	                    commonValues.add('nonprodmaskingproperties')
-	                }
-		        if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\config-prod.yaml")) {
-	                    commonValues.add('maskingproperties')
-	                }
-	
-	                // Update the existing YAML structure
-	                yaml.azure.common = commonValues.join(', ')
-	                println("Updated yaml: " + yaml)
-	
-	                // Write the updated content back to the file
-	                writeYaml file: yamlFile, data: yaml, overwrite: true
-	                echo "YAML file updated: ${yamlFile}"
-	            } else {
-	                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
-	            }
-	        } else {
-	            echo "YAML file does not exist: ${yamlFile}"
-	        }
-	    }
-	}	 */
 
 println("yamlFiles.size " + yamlFiles.size())
 println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
@@ -257,28 +214,7 @@ if (yamlFiles.size() == 0) {
     }
 }
 	
-/*
-    // Define the file path (adjust as needed for your workspace)
-    def xmlFile = 'src/main/mule/globals.xml'
-    def xmlContent = readFile(file: xmlFile)
-        // Parse the XML content inside the script block to avoid serialization issues
-        def xmlParser = new XmlParser()
-        def rootNode = xmlParser.parseText(xmlContent)
-        // Find and remove the global-property element with name='seed-automation'
-        def globalProperties = rootNode.children().findAll { it.name() == 'global-property' }
-        globalProperties.findAll { it.@name == 'seed-automation' }.each {
-            rootNode.remove(it)
-        }
-        // Convert the updated XML back to string
-        def writer = new StringWriter()
-        new XmlNodePrinter(new PrintWriter(writer)).print(rootNode)
-        def updatedXml = writer.toString()
-        // Print the updated XML to the console (for logging/debugging)
-        echo updatedXml
-        // Write the updated XML back to the file or a new file
-        writeFile file: xmlFile, text: updatedXml
-	*/
-          withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
+    withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
                     git config user.email "suprabhatcs@gmail.com"
                     git config user.name "suprabhat-platform"
