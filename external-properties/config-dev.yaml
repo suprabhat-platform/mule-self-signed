@@ -5,4 +5,4 @@ api:
 
 azure:
   vault:
-    common: "nonprodsalesforceproperties;nonprodcommonproperties" 
+    common: "nonprodsalesforceproperties;nonprodcommonproperties"
