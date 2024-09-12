@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v95
+           git checkout -b seed-automation_v96
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -177,31 +177,31 @@ if (yamlFiles.size() == 0) {
         def yamlFile = file.path
         echo "Processing YAML file: ${yamlFile}"
         if (fileExists(yamlFile)) {
-            def yamlText = readFile(yamlFile)
-            def yaml = readYaml text: yamlText
+            def yamlText = readFile(yamlFile) // Read original YAML file as text
+            def yaml = readYaml text: yamlText // Parse YAML content to a structured object
 
             if (yaml.azure?.vault?.common) {
                 def commonValues = yaml.azure.vault.common
 
-                // Split only for internal manipulation, preserve the original structure for final replacement
+                // Split the common field on ';', preserving quotes
                 def commonList = commonValues.split(';').collect { it.trim() }
                 println("commonList: " + commonList)
 
-                // Conditional checks based on file type
-                if (commonList.contains('nonprodmaskingproperties') && !(yamlFile.endsWith('config-prod.yaml'))) {
+                // Conditional checks for adding properties based on file name
+                if (!commonList.contains('nonprodmaskingproperties') && !yamlFile.endsWith('config-prod.yaml')) {
                     commonList.add('nonprodmaskingproperties')
                 }
                 if (!commonList.contains('maskingproperties') && yamlFile.endsWith('config-prod.yaml')) {
                     commonList.add('maskingproperties')
                 }
 
-                // Join the commonList back, preserving quotes around the entire string
+                // Join the updated list back to a string
                 def updatedCommonValues = "\"${commonList.join(';')}\""
 
-                // Replace the common field in the original text, allowing for variations in quotes and spacing
-                def updatedYamlText = yamlText.replaceAll(/(common:\s*"(.*?)")/, "common: ${updatedCommonValues}")
+                // Manually replace the common field in the original YAML text, ensuring quotes and comments are preserved
+                def updatedYamlText = yamlText.replaceFirst(/(common:\s*".*?")/, "common: ${updatedCommonValues}")
 
-                // Write back the updated YAML content to the file
+                // Write the updated YAML text back to the file
                 writeFile file: yamlFile, text: updatedYamlText
                 echo "YAML file updated: ${yamlFile}"
             } else {
@@ -223,7 +223,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v95
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v96
                 '''
 	  }
 	}
