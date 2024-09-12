@@ -1,11 +1,7 @@
 api:
-  name: "mule-self-signed"
-
-#Temp comment to test this
-
+  name: mule-self-signed
 azure:
   vault:
-    common: "salesforceproperties;commonproperties"
-
+    common: salesforceproperties;commonproperties;maskingproperties
 hello:
   test: sdsd, gdd, dgd

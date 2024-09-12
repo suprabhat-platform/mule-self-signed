@@ -1,11 +1,7 @@
 api:
-  name: "mule-self-signed"
-
-#Temp comment to test this
-
+  name: mule-self-signed
 azure:
   vault:
-    common: "nonprodsalesforceproperties;nonprodmaskingproperties;nonprodcommonproperties"
-
+    common: nonprodsalesforceproperties;nonprodmaskingproperties;nonprodcommonproperties;nonprodmaskingproperties
 hello:
   test: sdsd, gdd, dgd
