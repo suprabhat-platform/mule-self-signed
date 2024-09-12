@@ -1,3 +1,4 @@
 azure:
   vault:
-    common: nonprodsalesforceproperties
+    lob: "test"
+    common: "nonprodsalesforceproperties"
