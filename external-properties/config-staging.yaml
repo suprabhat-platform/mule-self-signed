@@ -5,7 +5,7 @@ api:
 
 azure:
   vault:
-    common: "nonprodsalesforceproperties;nonprodmaskingproperties;nonprodcommonproperties"
+    common: nonprodsalesforceproperties;nonprodmaskingproperties;nonprodcommonproperties
 
 hello:
   test: sdsd, gdd, dgd
