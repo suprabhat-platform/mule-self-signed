@@ -188,10 +188,13 @@ if (yamlFiles.size() == 0) {
 
                 println("commonList: " + commonList)
 
-                if ((commonList.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
+                // Use platform-independent file path checks
+                def prodYamlFile = "external-properties${File.separator}config-prod.yaml"
+
+                if ((commonList.contains('nonprodmaskingproperties')) && (yamlFile != prodYamlFile)) {
                     commonList.add('nonprodmaskingproperties')
                 }
-                if ((!commonList.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
+                if ((!commonList.contains('maskingproperties')) && (yamlFile == prodYamlFile)) {
                     commonList.add('maskingproperties')
                 }
 
