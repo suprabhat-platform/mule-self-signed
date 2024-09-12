@@ -198,7 +198,7 @@ if (yamlFiles.size() == 0) {
                 } 
 
                 // Replace only the relevant field in the original text
-                def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)[^\n]*/, { match ->
+                def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)[^\r\n]*/, { match ->
                     return "${match[1]}${commonValues.join(';')}"
                 })
 
