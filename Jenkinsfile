@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v93
+           git checkout -b seed-automation_v94
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -195,14 +195,13 @@ if (yamlFiles.size() == 0) {
                     commonList.add('maskingproperties')
                 }
 
-                // Join the commonList back into a string, wrapped in double quotes
-                def updatedCommonValues = commonList.join(';')
+                // Join the commonList back, preserving quotes around the entire string
+                def updatedCommonValues = "\"${commonList.join(';')}\""
 
-                // Replace the azure.vault.common value with the updated value
-                yaml.azure.vault.common = updatedCommonValues
+                // Manually replace the common field in the original text, keeping the quotes
+                def updatedYamlText = yamlText.replaceAll(/(common:\s*".*?")/, "common: ${updatedCommonValues}")
 
-                // Convert back to YAML and write it to the file
-                def updatedYamlText = writeYaml returnText: true, data: yaml
+                // Write back the updated YAML content to the file
                 writeFile file: yamlFile, text: updatedYamlText
                 echo "YAML file updated: ${yamlFile}"
             } else {
@@ -216,6 +215,7 @@ if (yamlFiles.size() == 0) {
 
 
 
+
 	
     withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -225,7 +225,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v93
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v94
                 '''
 	  }
 	}
