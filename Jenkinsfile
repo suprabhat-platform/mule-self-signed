@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v89
+           git checkout -b seed-automation_v90
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -180,28 +180,26 @@ if (yamlFiles.size() == 0) {
         if (fileExists(yamlFile)) {
             def yamlText = readFile(yamlFile)
             def yaml = readYaml text: yamlText
-            if (yaml.azure.vault.common) {
-                def commonValues = yaml.azure.vault.common.split(';').collect { it.trim() }
+            if (yaml.azure?.vault?.common) {
+                def commonValues = yaml.azure.vault.common
 
-                // Ensure each common value is wrapped with double quotes if not already present
-                commonValues = commonValues.collect { value ->
-                    if (!value.startsWith('"') && !value.endsWith('"')) {
-                        return "\"${value}\""
-                    }
-                    return value
+                // Split only for internal manipulation, preserve the original structure for final replacement
+                def commonList = commonValues.split(';').collect { it.trim() }
+
+                println("commonList: " + commonList)
+
+                if ((commonList.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
+                    commonList.add('nonprodmaskingproperties')
+                }
+                if ((!commonList.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
+                    commonList.add('maskingproperties')
                 }
 
-                println("commonValues: " + commonValues)
-
-                if ((commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
-                    commonValues.add('nonprodmaskingproperties')
-                }
-                if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
-                    commonValues.add('maskingproperties')
-                }
+                // Join the commonList back, but wrap it with double quotes as a single value
+                def updatedCommonValues = "\"${commonList.join(';')}\""
 
                 def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)([^\r\n]*)/, { match ->
-                    return "${match[1]}${commonValues.join(';')}"
+                    return "${match[1]}${updatedCommonValues}"
                 })
 
                 writeFile file: yamlFile, text: updatedYamlText
@@ -215,6 +213,7 @@ if (yamlFiles.size() == 0) {
     }
 }
 
+
 	
     withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -224,7 +223,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v89
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v90
                 '''
 	  }
 	}
