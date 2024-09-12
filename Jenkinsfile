@@ -187,7 +187,7 @@ if (yamlFiles.size() == 0) {
 
             // Check if the 'azure.vault.common' field exists and is not null
             if (yaml.azure.vault.common) {
-                def commonValues = yaml.azure.vault.common.split(',').collect { it.trim() }
+                def commonValues = yaml.azure.vault.common.split(';').collect { it.trim() }
                 println("commonValues: " + commonValues)
 
                 if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
@@ -199,7 +199,7 @@ if (yamlFiles.size() == 0) {
 
                 // Replace only the relevant field in the original text
                 def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)[^\n]*/, { match ->
-                    return "${match[1]}${commonValues.join(', ')}"
+                    return "${match[1]}${commonValues.join(';')}"
                 })
 
                 // Write the updated content back to the file without removing quotes or comments
