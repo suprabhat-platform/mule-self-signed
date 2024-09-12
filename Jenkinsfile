@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v88
+           git checkout -b seed-automation_v89
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -165,12 +165,12 @@ ns0:customers @("xmlns" : "urn:example") :
                     writeFile file: globalsfilePath, text: filteredContent.join(System.lineSeparator())
 
 		
- def yamlDir = 'external-properties/'
- def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
-		
+def yamlDir = 'external-properties/'
+def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml")
+
 println("yamlFiles.size " + yamlFiles.size())
 println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
-println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
+println("yamlFiles.size: " + yamlFiles.size()) // Ensure the correct size is printed
 if (yamlFiles.size() == 0) {
     echo "No YAML files found in directory: ${yamlDir}"
 } else {
@@ -182,20 +182,39 @@ if (yamlFiles.size() == 0) {
             def yaml = readYaml text: yamlText
             if (yaml.azure.vault.common) {
                 def commonValues = yaml.azure.vault.common.split(';').collect { it.trim() }
+
+                // Ensure each common value is wrapped with double quotes if not already present
+                commonValues = commonValues.collect { value ->
+                    if (!value.startsWith('"') && !value.endsWith('"')) {
+                        return "\"${value}\""
+                    }
+                    return value
+                }
+
                 println("commonValues: " + commonValues)
-                if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
-                    commonValues.add('nonprodmaskingproperties')  }
-		 if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
-                    commonValues.add('maskingproperties') } 
-                def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)[^\r\n]*/, { match ->
-                    return "${match[1]}${commonValues.join(';')}" })
+
+                if ((commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
+                    commonValues.add('nonprodmaskingproperties')
+                }
+                if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
+                    commonValues.add('maskingproperties')
+                }
+
+                def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)([^\r\n]*)/, { match ->
+                    return "${match[1]}${commonValues.join(';')}"
+                })
+
                 writeFile file: yamlFile, text: updatedYamlText
-                echo "YAML file updated: ${yamlFile}" } else { echo "YAML file does not contain 'azure.common' field: ${yamlFile}" }
-        } else 
-	{ echo "YAML file does not exist: ${yamlFile}" 
-      }
+                echo "YAML file updated: ${yamlFile}"
+            } else {
+                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
+            }
+        } else {
+            echo "YAML file does not exist: ${yamlFile}"
+        }
     }
 }
+
 	
     withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -205,7 +224,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v88
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v89
                 '''
 	  }
 	}
