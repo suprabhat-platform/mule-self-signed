@@ -170,7 +170,6 @@ def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml")
 
 println("yamlFiles.size " + yamlFiles.size())
 println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
-println("yamlFiles.size: " + yamlFiles.size()) // Ensure the correct size is printed
 if (yamlFiles.size() == 0) {
     echo "No YAML files found in directory: ${yamlDir}"
 } else {
@@ -180,38 +179,41 @@ if (yamlFiles.size() == 0) {
         if (fileExists(yamlFile)) {
             def yamlText = readFile(yamlFile)
             def yaml = readYaml text: yamlText
+
             if (yaml.azure?.vault?.common) {
                 def commonValues = yaml.azure.vault.common
 
                 // Split only for internal manipulation, preserve the original structure for final replacement
                 def commonList = commonValues.split(';').collect { it.trim() }
-
                 println("commonList: " + commonList)
 
-                if ((commonList.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
+                // Conditional checks based on file type
+                if (commonList.contains('nonprodmaskingproperties') && !(yamlFile.endsWith('config-prod.yaml'))) {
                     commonList.add('nonprodmaskingproperties')
                 }
-                if ((!commonList.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
+                if (!commonList.contains('maskingproperties') && yamlFile.endsWith('config-prod.yaml')) {
                     commonList.add('maskingproperties')
                 }
 
-                // Join the commonList back, but wrap it with double quotes as a single value
-                def updatedCommonValues = "\"${commonList.join(';')}\""
+                // Join the commonList back into a string, wrapped in double quotes
+                def updatedCommonValues = commonList.join(';')
 
-                def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)([^\r\n]*)/, { match ->
-                    return "${match[1]}${updatedCommonValues}"
-                })
+                // Replace the azure.vault.common value with the updated value
+                yaml.azure.vault.common = updatedCommonValues
 
+                // Convert back to YAML and write it to the file
+                def updatedYamlText = writeYaml returnText: true, data: yaml
                 writeFile file: yamlFile, text: updatedYamlText
                 echo "YAML file updated: ${yamlFile}"
             } else {
-                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
+                echo "YAML file does not contain 'azure.vault.common' field: ${yamlFile}"
             }
         } else {
             echo "YAML file does not exist: ${yamlFile}"
         }
     }
 }
+
 
 
 	
