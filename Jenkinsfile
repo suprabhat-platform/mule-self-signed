@@ -198,8 +198,8 @@ if (yamlFiles.size() == 0) {
                 // Join the commonList back, preserving quotes around the entire string
                 def updatedCommonValues = "\"${commonList.join(';')}\""
 
-                // Manually replace the common field in the original text, keeping the quotes
-                def updatedYamlText = yamlText.replaceAll(/(common:\s*".*?")/, "common: ${updatedCommonValues}")
+                // Replace the common field in the original text, allowing for variations in quotes and spacing
+                def updatedYamlText = yamlText.replaceAll(/(common:\s*"(.*?)")/, "common: ${updatedCommonValues}")
 
                 // Write back the updated YAML content to the file
                 writeFile file: yamlFile, text: updatedYamlText
@@ -212,8 +212,6 @@ if (yamlFiles.size() == 0) {
         }
     }
 }
-
-
 
 
 	
