@@ -165,52 +165,35 @@ ns0:customers @("xmlns" : "urn:example") :
                     writeFile file: globalsfilePath, text: filteredContent.join(System.lineSeparator())
 
 		
-        def yamlDir = 'external-properties/'
-	def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
-
+ def yamlDir = 'external-properties/'
+ def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml") 
+		
 println("yamlFiles.size " + yamlFiles.size())
 println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
 println("yamlFiles.size: " + yamlFiles.size())  // Ensure the correct size is printed
-
 if (yamlFiles.size() == 0) {
     echo "No YAML files found in directory: ${yamlDir}"
 } else {
     yamlFiles.each { file ->
         def yamlFile = file.path
         echo "Processing YAML file: ${yamlFile}"
-
         if (fileExists(yamlFile)) {
             def yamlText = readFile(yamlFile)
-
-            // Parse YAML manually using regex or direct string manipulation
             def yaml = readYaml text: yamlText
-
-            // Check if the 'azure.vault.common' field exists and is not null
             if (yaml.azure.vault.common) {
                 def commonValues = yaml.azure.vault.common.split(';').collect { it.trim() }
                 println("commonValues: " + commonValues)
-
                 if ((!commonValues.contains('nonprodmaskingproperties')) && (yamlFile != "external-properties\\config-prod.yaml")) {
-                    commonValues.add('nonprodmaskingproperties')
-                }
+                    commonValues.add('nonprodmaskingproperties')  }
 		 if ((!commonValues.contains('maskingproperties')) && (yamlFile == "external-properties\\config-prod.yaml")) {
-                    commonValues.add('maskingproperties')
-                } 
-
-                // Replace only the relevant field in the original text
+                    commonValues.add('maskingproperties') } 
                 def updatedYamlText = yamlText.replaceAll(/(azure:\s*vault:\s*common:\s*)[^\r\n]*/, { match ->
-                    return "${match[1]}${commonValues.join(';')}"
-                })
-
-                // Write the updated content back to the file without removing quotes or comments
+                    return "${match[1]}${commonValues.join(';')}" })
                 writeFile file: yamlFile, text: updatedYamlText
-                echo "YAML file updated: ${yamlFile}"
-            } else {
-                echo "YAML file does not contain 'azure.common' field: ${yamlFile}"
-            }
-        } else {
-            echo "YAML file does not exist: ${yamlFile}"
-        }
+                echo "YAML file updated: ${yamlFile}" } else { echo "YAML file does not contain 'azure.common' field: ${yamlFile}" }
+        } else 
+	{ echo "YAML file does not exist: ${yamlFile}" 
+      }
     }
 }
 	
