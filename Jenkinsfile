@@ -14,7 +14,7 @@ pipeline {
                     println("Application master checkout successful")
 
                     // Create and switch to the new branch
-                    bat 'git checkout -b seed-automation_v110'
+                    bat 'git checkout -b seed-automation_v111'
                     println("Application feature branch checkout successful")
 
                     // Define the path to the pom.xml file
@@ -24,9 +24,6 @@ pipeline {
                     def pom = new XmlParser().parse(pomFile)
 
                     // Update Parent Version if Seed Version matches
-                    def seedVersionNode = pom.properties.find { it.name() == 'seed.version' }
-                    def seedVersion = seedVersionNode?.text()
-                    if (seedVersion == "1.0.11" || seedVersion == "1.0.6") {
                         println("Updating Parent Version and Seed Version")
 
                         // Update parent version
@@ -85,12 +82,9 @@ pipeline {
                                 git config user.name "suprabhat-platform"
                                 git add pom.xml
                                 git commit -m "Updated pom.xml with specific attributes"
-                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v110
+                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v111
                             '''
                         }
-                    } else {
-                        println("Seed version does not match, skipping updates.")
-                    }
                 }
             }
         }
