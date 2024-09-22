@@ -13,7 +13,7 @@ pipeline {
                     println("Application master checkout successful")
 
                     bat '''
-                        git checkout -b seed-automation_v104
+                        git checkout -b seed-automation_v105
                     '''
                     println("Application feature branch checkout successful")
 
@@ -79,7 +79,7 @@ pipeline {
                                 git config user.name "suprabhat-platform"
                                 git add pom.xml
                                 git commit -m "Updated pom.xml with specific attributes"
-                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v104
+                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v105
                             '''
                         }
                     } else {
