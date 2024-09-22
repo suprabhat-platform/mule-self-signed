@@ -19,7 +19,10 @@ pipeline {
 
                     def xmlContent = readFile('pom.xml')
                     def pom = new XmlParser().parseText(xmlContent)
+                    println("pom.parent "+ pom.parent)
+                    if(pom.parent != null) {
                     pom.parent.version[0].setValue = "1.0.3"
+                    }
 
                    // pom.properties.'seed.version'[0].setValue = "1.0.12"
 
