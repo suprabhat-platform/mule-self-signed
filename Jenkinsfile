@@ -14,7 +14,7 @@ pipeline {
                     println("Application master checkout successful")
 
                     // Create and switch to the new branch
-                    bat 'git checkout -b seed-automation_v109'
+                    bat 'git checkout -b seed-automation_v110'
                     println("Application feature branch checkout successful")
 
                     // Define the path to the pom.xml file
@@ -23,12 +23,17 @@ pipeline {
                     // Parse the POM file
                     def pom = new XmlParser().parse(pomFile)
 
+                    // Update Parent Version if Seed Version matches
+                    def seedVersionNode = pom.properties.find { it.name() == 'seed.version' }
+                    def seedVersion = seedVersionNode?.text()
+                    if (seedVersion == "1.0.11" || seedVersion == "1.0.6") {
                         println("Updating Parent Version and Seed Version")
 
                         // Update parent version
-                        println("Parent version before: " + pom.parent.version.text())
-                        pom.parent.version[0].value = '1.0.3'
-                        println("Parent version after: " + pom.parent.version.text())
+                        def parentVersionNode = pom.parent.version[0]
+                        println("Parent version before: ${parentVersionNode.text()}")
+                        parentVersionNode.value = '1.0.3'
+                        println("Parent version after: ${parentVersionNode.text()}")
 
                         // Update seed version based on conditions
                         if (seedVersion == "1.0.6" && pom.dependencies.dependency.find {
@@ -39,16 +44,17 @@ pipeline {
                         } else {
                             seedVersionNode.value = '1.0.12'
                         }
-                        println("Updated seed version: " + seedVersionNode.text())
+                        println("Updated seed version: ${seedVersionNode.text()}")
 
                         // Update dependency version for mule-http-connector
                         pom.dependencies.dependency.findAll {
                             it.groupId.text() == "org.mule.connectors" &&
                             it.artifactId.text() == "mule-http-connector"
                         }.each {
-                            println("mule-http-connector version before: " + it.version.text())
-                            it.version[0].value = '1.9.2'
-                            println("mule-http-connector version after: " + it.version.text())
+                            def httpConnectorVersionNode = it.version[0]
+                            println("mule-http-connector version before: ${httpConnectorVersionNode.text()}")
+                            httpConnectorVersionNode.value = '1.9.2'
+                            println("mule-http-connector version after: ${httpConnectorVersionNode.text()}")
                         }
 
                         // Remove mule-latency-connector dependency
@@ -79,9 +85,12 @@ pipeline {
                                 git config user.name "suprabhat-platform"
                                 git add pom.xml
                                 git commit -m "Updated pom.xml with specific attributes"
-                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v109
+                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v110
                             '''
                         }
+                    } else {
+                        println("Seed version does not match, skipping updates.")
+                    }
                 }
             }
         }
