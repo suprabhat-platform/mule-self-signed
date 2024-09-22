@@ -14,14 +14,14 @@ pipeline {
                     echo "Application master checkout successful"
 
                     // Create and switch to the new branch
-                    bat 'git checkout -b seed-automation_v150'
+                    bat 'git checkout -b seed-automation_v151'
                     echo "Application feature branch checkout successful"
 
                     def xmlContent = readFile('pom.xml')
                     def pom = new XmlParser().parseText(xmlContent)
                     pom.parent.version[0].setValue = "1.0.3"
 
-                    pom.properties.'seed.version'[0].setValue = "1.0.12"
+                   // pom.properties.'seed.version'[0].setValue = "1.0.12"
 
                     echo "Updated pom.xml written successfully."
 
@@ -32,7 +32,7 @@ pipeline {
                             git config user.name "suprabhat-platform"
                             git add pom.xml
                             git commit -m "Updated pom.xml with specific attributes"
-                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v150
+                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v151
                         '''
                     }
                 }
