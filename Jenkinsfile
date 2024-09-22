@@ -16,11 +16,10 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v150
+           git checkout -b seed-automation_v151
 	   '''
-	   println("Application feature branch checkout successful")	
-       def pomFile = 'pom.xml'  
-	   pom = readMavenPom file: 'pom.xml'
+	   println("Application feature branch checkout successful")	 
+	   pom = readMavenPom file: 'pom.xml', encoding: "UTF-8"
 	   println("pom with readMavenPom" + pom) 
   
 	   def isSfSeedVersion = false		 
@@ -129,8 +128,8 @@ pipeline {
 	} else {
 	    println("mule-latency-connector dependency not found.")
 	}	 
-	 //  writeMavenPom model: pom 
-       writeFile file: pomFile, text: XmlUtil.serialize(pom) 
+	   writeMavenPom model: pom, encoding: "UTF-8" 
+          // writeFile file: pomFile, text: XmlUtil.serialize(pom) 
 	   println("pom with writeMavenPom" + pom)	
 
 		
@@ -225,7 +224,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v150
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v151
                 '''
 	  }
 	}
