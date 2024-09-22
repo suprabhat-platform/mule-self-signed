@@ -8,16 +8,19 @@ pipeline {
                 GIT_USER_NAME = "suprabhat-platform"
             }
             steps {
-                script {     
+                script {
+                    // Checkout the repository
                     git 'https://github.com/suprabhat-platform/mule-self-signed.git'
                     println("Application master checkout successful")
 
-                    bat '''
-                        git checkout -b seed-automation_v105
-                    '''
+                    // Create and switch to the new branch
+                    bat 'git checkout -b seed-automation_v106'
                     println("Application feature branch checkout successful")
 
-                    def pomFile = 'pom.xml'
+                    // Define the path to the pom.xml file
+                    def pomFile = "${env.WORKSPACE}/pom.xml"
+
+                    // Parse the POM file
                     def pom = new XmlParser().parse(pomFile)
 
                     // Update Parent Version if Seed Version matches
@@ -79,7 +82,7 @@ pipeline {
                                 git config user.name "suprabhat-platform"
                                 git add pom.xml
                                 git commit -m "Updated pom.xml with specific attributes"
-                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v105
+                                git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v106
                             '''
                         }
                     } else {
