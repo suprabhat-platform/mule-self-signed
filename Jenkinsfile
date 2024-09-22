@@ -14,7 +14,7 @@ pipeline {
                     echo "Application master checkout successful"
 
                     // Create and switch to the new branch
-                    bat 'git checkout -b seed-automation_v112'
+                    bat 'git checkout -b seed-automation_v113'
                     echo "Application feature branch checkout successful"
 
                     // Define the path to the pom.xml file
@@ -23,20 +23,20 @@ pipeline {
                     // Parse the POM file
                     def pom = new XmlParser().parse(pomFile)
 
-                    // Update Parent Version if Seed Version matches
-                    echo "Updating Parent Version and Seed Version"
+                    // Update Parent Version
+                    echo "Updating Parent Version"
 
                     // Update parent version
                     def parentVersionNode = pom.parent.version[0]
                     echo "Parent version before: ${parentVersionNode.text()}"
-                    parentVersionNode.value = '1.0.3'
+                    parentVersionNode.value = '1.0.3' // Set the new parent version
                     echo "Parent version after: ${parentVersionNode.text()}"
 
                     // Update seed version based on conditions
-                    def seedVersion = "1.0.6" // Define your seed version here
-                    def seedVersionNode = pom.version[0] // Assuming this is where the seed version is located
+                    def seedVersionNode = pom.properties.'seed.version'[0] // Access the seed version
+                    def currentSeedVersion = seedVersionNode.text()
 
-                    if (seedVersion == "1.0.6" && pom.dependencies.dependency.find {
+                    if (currentSeedVersion == "1.0.6" && pom.dependencies.dependency.find {
                         it.groupId.text() == "com.mulesoft.connectors" &&
                         it.artifactId.text() == "mule-salesforce-connectors"
                     }) {
@@ -89,7 +89,7 @@ pipeline {
                             git config user.name "suprabhat-platform"
                             git add pom.xml
                             git commit -m "Updated pom.xml with specific attributes"
-                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v112
+                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v113
                         '''
                     }
                 }
