@@ -15,7 +15,7 @@ pipeline {
                     println("Application master checkout successful")
 
                     bat '''
-                        git checkout -b seed-automation_v100
+                        git checkout -b seed-automation_v101
                     '''
                     println("Application feature branch checkout successful")
 
@@ -24,39 +24,42 @@ pipeline {
                     def pom = new XmlParser().parseText(pomFile)
                     
                     // Update the parent version
-                    def parentVersion = pom.parent.version.text()
+                    def parentVersionNode = pom.'parent'.'version'[0]
+                    def parentVersion = parentVersionNode.text()
                     println("Parent version before: " + parentVersion)
 
                     if (parentVersion != "1.0.3") {
-                        pom.parent.version[0].value = '1.0.3'
+                        parentVersionNode.value = '1.0.3'
                         println("Parent version updated to: 1.0.3")
                     }
 
                     // Update the seed.version property
-                    def seedVersion = pom.properties.'seed.version'.text()
+                    def seedVersionNode = pom.'properties'.'seed.version'[0]
+                    def seedVersion = seedVersionNode.text()
                     println("Seed version before: " + seedVersion)
 
                     if (seedVersion == "1.0.6" || seedVersion == "1.0.11") {
-                        pom.properties.'seed.version'[0].value = seedVersion == "1.0.6" ? "1.0.7" : "1.0.12"
-                        println("Seed version updated to: " + pom.properties.'seed.version'.text())
+                        seedVersionNode.value = seedVersion == "1.0.6" ? "1.0.7" : "1.0.12"
+                        println("Seed version updated to: " + seedVersionNode.text())
                     }
 
                     // Update the 'mule-http-connector' dependency
-                    pom.dependencies.dependency.findAll {
-                        it.groupId.text() == 'org.mule.connectors' && it.artifactId.text() == 'mule-http-connector'
+                    pom.'dependencies'.'dependency'.findAll {
+                        it.'groupId'.text() == 'org.mule.connectors' && it.'artifactId'.text() == 'mule-http-connector'
                     }.each {
-                        println("Updating mule-http-connector version from " + it.version.text() + " to 1.9.2")
-                        it.version[0].value = '1.9.2'
+                        def httpConnectorVersionNode = it.'version'[0]
+                        println("Updating mule-http-connector version from " + httpConnectorVersionNode.text() + " to 1.9.2")
+                        httpConnectorVersionNode.value = '1.9.2'
                     }
 
                     // Remove the 'mule-latency-connector' dependency
-                    def toRemove = pom.dependencies.dependency.find {
-                        it.groupId.text() == 'com.mulesoft.modules' && it.artifactId.text() == 'mule-latency-connector'
+                    def toRemove = pom.'dependencies'.'dependency'.find {
+                        it.'groupId'.text() == 'com.mulesoft.modules' && it.'artifactId'.text() == 'mule-latency-connector'
                     }
 
                     if (toRemove) {
                         println("Removing mule-latency-connector dependency")
-                        pom.dependencies.remove(toRemove)
+                        pom.'dependencies'[0].remove(toRemove)
                     } else {
                         println("mule-latency-connector dependency not found")
                     }
@@ -74,7 +77,7 @@ pipeline {
                             git config user.name "suprabhat-platform"
                             git add pom.xml
                             git commit -m "Updated pom.xml with specific changes"
-                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v100
+                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v101
                         '''
                     }
                 }
