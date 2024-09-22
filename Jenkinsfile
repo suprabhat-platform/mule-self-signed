@@ -15,7 +15,7 @@ pipeline {
                     println("Application master checkout successful")
 
                     bat '''
-                        git checkout -b seed-automation_v102
+                        git checkout -b seed-automation_v103
                     '''
                     println("Application feature branch checkout successful")
 
@@ -23,9 +23,9 @@ pipeline {
                     def pomFile = readFile file: 'pom.xml'
                     def pom = new XmlParser().parseText(pomFile)
                     
-                    // Update the parent version
+                    // Update the parent version (with safe navigation)
                     def parentNode = pom.parent
-                    if (parentNode && parentNode.version) {
+                    if (parentNode?.version) {
                         def parentVersion = parentNode.version.text()
                         println("Parent version before: " + parentVersion)
 
@@ -34,12 +34,12 @@ pipeline {
                             println("Parent version updated to: 1.0.3")
                         }
                     } else {
-                        println("Parent version node not found.")
+                        println("Parent version node not found or does not have a version.")
                     }
 
-                    // Update the seed.version property
+                    // Update the seed.version property (with safe navigation)
                     def propertiesNode = pom.properties
-                    if (propertiesNode && propertiesNode.'seed.version') {
+                    if (propertiesNode?.'seed.version') {
                         def seedVersion = propertiesNode.'seed.version'.text()
                         println("Seed version before: " + seedVersion)
 
@@ -85,7 +85,7 @@ pipeline {
                             git config user.name "suprabhat-platform"
                             git add pom.xml
                             git commit -m "Updated pom.xml with specific changes"
-                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v102
+                            git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v103
                         '''
                     }
                 }
