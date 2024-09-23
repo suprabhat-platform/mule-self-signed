@@ -19,8 +19,7 @@ pipeline {
            git checkout -b seed-automation_v201
 	   '''
 	   println("Application feature branch checkout successful")	 
-	 //  pom = readMavenPom file: 'pom.xml', encoding: "UTF-8"
-	  pom = readMavenPom file: 'pom.xml'
+	   pom = readMavenPom file: 'pom.xml'
 	   println("pom with readMavenPom" + pom) 
   
 	   def isSfSeedVersion = false		 
@@ -128,10 +127,8 @@ pipeline {
 	    println("mule-latency-connector dependency removed.")
 	} else {
 	    println("mule-latency-connector dependency not found.")
-	}	
-            writeMavenPom model: pom		
-	   //writeMavenPom model: pom, encoding: "UTF-8" 
-          // writeFile file: pomFile, text: XmlUtil.serialize(pom) 
+	}	 
+	   writeMavenPom model: pom 
 	   println("pom with writeMavenPom" + pom)	
 
 		
