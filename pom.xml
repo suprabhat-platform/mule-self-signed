@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
   </parent>
   <groupId>com.mycompany</groupId>
   <artifactId>mule-self-signed</artifactId>
@@ -16,7 +16,7 @@
     <munit.version>1.0.0</munit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <app.runtime>4.4.0</app.runtime>
-    <seed.version>1.0.11</seed.version>
+    <seed.version>1.0.7</seed.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencies>
