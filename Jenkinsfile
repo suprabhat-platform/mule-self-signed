@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v319
+           git checkout -b seed-automation_v320
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -197,10 +197,13 @@ if (yamlFiles.size() == 0) {
               //  def finalYamlText = updatedYamlText.replaceAll(/^(?m) *(#.*)/, "\$1")  // Preserves comments
 		//def finalYamlText = updatedYamlText.replaceAll(/^(?m)\s*(#.*)?/, { match -> match[0].trim() })
 
-		    def finalYamlText = updatedYamlText.replaceAll(/^(?m)(\s*)(#.*)?/, { match -> 
-    // Return the comment with preserved whitespace if present
-    return match[2] ? match[1] + match[2].trim() : match[0]
-})
+def finalYamlText = updatedYamlText.replaceAll(/^(?!\s*#)(\s*)(.*)/) { match, spaces, line ->
+    // Keep the line intact, but trim leading spaces
+    return line.trim()
+}
+
+// Preserve comments
+finalYamlText = finalYamlText.replaceAll(/^\s*(#.*)/, { match -> match[1] })
 
 		
 		//def updatedYamlText = yamlText.replaceFirst(/(place:\s*".*?")/, "place: Bangalore")  	
@@ -228,7 +231,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v319
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v320
                 '''
 	  }
 	}
