@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v309
+           git checkout -b seed-automation_v310
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -180,12 +180,15 @@ if (yamlFiles.size() == 0) {
             def yamlText = readFile(yamlFile) // Read original YAML file as text
             def yaml = readYaml text: yamlText // Parse YAML content to a structured object
 
-            // Update 'azure.vault.common' field
+            // Check for azure.vault.common field
             if (yaml.azure?.vault?.common) {
-                def commonList = yaml.azure.vault.common.split(';').collect { it.trim() }
+                def commonValues = yaml.azure.vault.common
+
+                // Split the common field on ';', preserving quotes
+                def commonList = commonValues.split(';').collect { it.trim() }
                 println("commonList: " + commonList)
 
-                // Append new values conditionally
+                // Conditional checks for adding properties based on file name
                 if (!commonList.contains('nonprodmaskingproperties') && !yamlFile.endsWith('config-prod.yaml')) {
                     commonList.add('nonprodmaskingproperties')
                 }
@@ -193,31 +196,38 @@ if (yamlFiles.size() == 0) {
                     commonList.add('maskingproperties')
                 }
 
-                // Update the common field in the YAML structure
-                yaml.azure.vault.common = commonList.join(';')
+                // Join the updated list back to a string
+                def updatedCommonValues = "\"${commonList.join(';')}\""
+
+                // Manually replace the common field in the original YAML text, ensuring quotes and comments are preserved
+                yamlText = yamlText.replaceFirst(/(common:\s*".*?")/, "common: ${updatedCommonValues}")
+                echo "Updated common field for YAML file: ${yamlFile}"
             } else {
                 echo "YAML file does not contain 'azure.vault.common' field: ${yamlFile}"
             }
 
-            // Append a new key-value pair under 'api'
-            yaml.api = yaml.api ?: [:]  // Ensure 'api' section exists
-            if (!yaml.api.containsKey('place')) {
-                yaml.api['place'] = 'Bangalore'  // Add the 'place' field to 'api'
-                echo "'place' key added under 'api' in file: ${yamlFile}"
+            // Check for the presence of the 'api' field and add 'place' if it exists
+            if (yaml.api) {
+                if (!yaml.api.place) {  // Only add if 'place' is not already present
+                    yaml.api.place = "Bangalore"
+                    println("Added place: 'Bangalore' to api section")
+                }
+                
+                // Convert the YAML object back to text format after adding the place field
+                def updatedYamlTextWithPlace = yamlText.replaceFirst(/(api:\s*\{[^\}]*\})/, "api:\n  name: \"${yaml.api.name}\"\n  id: '${yaml.api.id}'\n  place: \"Bangalore\"")
+                yamlText = updatedYamlTextWithPlace
+            } else {
+                echo "YAML file does not contain 'api' field: ${yamlFile}"
             }
 
-            // Convert the updated YAML object back to text
-            def updatedYamlText = yaml.dump(yaml)
-
             // Write the updated YAML text back to the file
-            writeFile file: yamlFile, text: updatedYamlText
+            writeFile file: yamlFile, text: yamlText
             echo "YAML file updated: ${yamlFile}"
         } else {
             echo "YAML file does not exist: ${yamlFile}"
         }
     }
 }
-
 
 
 
@@ -230,7 +240,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v309
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v310
                 '''
 	  }
 	}
