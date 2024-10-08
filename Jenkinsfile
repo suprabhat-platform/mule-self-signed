@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v312
+           git checkout -b seed-automation_v313
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -169,12 +169,14 @@ def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml")
 
 println("yamlFiles.size " + yamlFiles.size())
 println("Found YAML files: ${yamlFiles.collect { it.path }}")  // Print all file paths
+
 if (yamlFiles.size() == 0) {
     echo "No YAML files found in directory: ${yamlDir}"
 } else {
     yamlFiles.each { file ->
         def yamlFile = file.path
         echo "Processing YAML file: ${yamlFile}"
+
         if (fileExists(yamlFile)) {
             def yamlText = readFile(yamlFile) // Read original YAML file as text
             def yaml = readYaml text: yamlText // Parse YAML content to a structured object
@@ -183,19 +185,15 @@ if (yamlFiles.size() == 0) {
             if (yaml.api) {
                 if (!yaml.api.place) {  // Only add if 'place' is not already present
                     yaml.api.place = "Bangalore"
-                    println("Added place: 'Bangalore' to api section")
+                    echo "Added place: 'Bangalore' to api section"
                 }
-                
-               // Convert the YAML object back to text format after adding the place field
-                def updatedYamlTextWithPlace = yamlText.replaceFirst(/(api:\s*\{[^\}]*\})/, "api:\n  name: \"${yaml.api.name}\"\n  id: '${yaml.api.id}'\n  place: \"Bangalore\"")
-                yamlText = updatedYamlTextWithPlace
+
+                // Write the updated YAML back to the file
+                writeYaml file: yamlFile, data: yaml
+                echo "YAML file updated: ${yamlFile}"
             } else {
                 echo "YAML file does not contain 'api' field: ${yamlFile}"
             }
-
-            // Write the updated YAML text back to the file
-            writeFile file: yamlFile, text: yamlText
-            echo "YAML file updated: ${yamlFile}"
         } else {
             echo "YAML file does not exist: ${yamlFile}"
         }
@@ -213,7 +211,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v312
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v313
                 '''
 	  }
 	}
