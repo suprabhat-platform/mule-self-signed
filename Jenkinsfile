@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v320
+           git checkout -b seed-automation_v321
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -198,8 +198,7 @@ if (yamlFiles.size() == 0) {
 		//def finalYamlText = updatedYamlText.replaceAll(/^(?m)\s*(#.*)?/, { match -> match[0].trim() })
 
 def finalYamlText = updatedYamlText.replaceAll(/^(?!\s*#)(\s*)(.*)/) { match, spaces, line ->
-    // Keep the line intact, but trim leading spaces
-    return line.trim()
+    return line ? line.trim() : ''  // Check if line is not null before trimming
 }
 
 // Preserve comments
@@ -231,7 +230,7 @@ finalYamlText = finalYamlText.replaceAll(/^\s*(#.*)/, { match -> match[1] })
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v320
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v321
                 '''
 	  }
 	}
