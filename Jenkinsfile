@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v308
+           git checkout -b seed-automation_v309
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -177,9 +177,10 @@ if (yamlFiles.size() == 0) {
         def yamlFile = file.path
         echo "Processing YAML file: ${yamlFile}"
         if (fileExists(yamlFile)) {
-            def yaml = readYaml file: yamlFile // Read the existing YAML file into a structured object
+            def yamlText = readFile(yamlFile) // Read original YAML file as text
+            def yaml = readYaml text: yamlText // Parse YAML content to a structured object
 
-            // Update the 'azure.vault.common' field if it exists
+            // Update 'azure.vault.common' field
             if (yaml.azure?.vault?.common) {
                 def commonList = yaml.azure.vault.common.split(';').collect { it.trim() }
                 println("commonList: " + commonList)
@@ -205,14 +206,18 @@ if (yamlFiles.size() == 0) {
                 echo "'place' key added under 'api' in file: ${yamlFile}"
             }
 
-            // Write the updated YAML object back to the file (appending changes)
-            writeYaml file: yamlFile, data: yaml
+            // Convert the updated YAML object back to text
+            def updatedYamlText = yaml.dump(yaml)
+
+            // Write the updated YAML text back to the file
+            writeFile file: yamlFile, text: updatedYamlText
             echo "YAML file updated: ${yamlFile}"
         } else {
             echo "YAML file does not exist: ${yamlFile}"
         }
     }
 }
+
 
 
 
@@ -225,7 +230,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v308
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v309
                 '''
 	  }
 	}
