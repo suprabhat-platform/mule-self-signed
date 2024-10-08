@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v313
+           git checkout -b seed-automation_v314
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -164,7 +164,8 @@ ns0:customers @("xmlns" : "urn:example") :
                     // Write the filtered content back to the file
                     writeFile file: globalsfilePath, text: filteredContent.join(System.lineSeparator())
 
-def yamlDir = 'external-properties/'
+
+		def yamlDir = 'external-properties/'
 def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml")
 
 println("yamlFiles.size " + yamlFiles.size())
@@ -188,8 +189,15 @@ if (yamlFiles.size() == 0) {
                     echo "Added place: 'Bangalore' to api section"
                 }
 
-                // Write the updated YAML back to the file
-                writeYaml file: yamlFile, data: yaml
+                // Convert the structured YAML back to text format
+                def updatedYamlText = writeYaml(data: yaml, returnText: true)
+
+                // Preserve comments from the original YAML text
+                // This approach will keep the comments intact.
+                def finalYamlText = updatedYamlText.replaceAll(/^(?m) *(#.*)/, "$1")  // Preserves comments
+
+                // Write the updated YAML text back to the file
+                writeFile file: yamlFile, text: finalYamlText
                 echo "YAML file updated: ${yamlFile}"
             } else {
                 echo "YAML file does not contain 'api' field: ${yamlFile}"
@@ -202,6 +210,7 @@ if (yamlFiles.size() == 0) {
 
 
 
+
 	
     withCredentials([string(credentialsId: 'github-token-credentials', variable: 'GITHUB_TOKEN')]) {
 	      bat '''
@@ -211,7 +220,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v313
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v314
                 '''
 	  }
 	}
