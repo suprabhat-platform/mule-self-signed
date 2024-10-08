@@ -164,7 +164,6 @@ ns0:customers @("xmlns" : "urn:example") :
                     // Write the filtered content back to the file
                     writeFile file: globalsfilePath, text: filteredContent.join(System.lineSeparator())
 
-		
 def yamlDir = 'external-properties/'
 def yamlFiles = findFiles(glob: "${yamlDir}**/*.yaml")
 
@@ -197,10 +196,7 @@ if (yamlFiles.size() == 0) {
                 }
 
                 // Join the updated list back to a string
-                def updatedCommonValues = "\"${commonList.join(';')}\""
-
-                // Manually replace the common field in the original YAML text, ensuring quotes and comments are preserved
-                yamlText = yamlText.replaceFirst(/(common:\s*".*?")/, "common: ${updatedCommonValues}")
+                yaml.azure.vault.common = commonList.join(';')  // Update the YAML structure
                 echo "Updated common field for YAML file: ${yamlFile}"
             } else {
                 echo "YAML file does not contain 'azure.vault.common' field: ${yamlFile}"
@@ -212,22 +208,20 @@ if (yamlFiles.size() == 0) {
                     yaml.api.place = "Bangalore"
                     println("Added place: 'Bangalore' to api section")
                 }
-                
-                // Convert the YAML object back to text format after adding the place field
-                def updatedYamlTextWithPlace = yamlText.replaceFirst(/(api:\s*\{[^\}]*\})/, "api:\n  name: \"${yaml.api.name}\"\n  id: '${yaml.api.id}'\n  place: \"Bangalore\"")
-                yamlText = updatedYamlTextWithPlace
             } else {
                 echo "YAML file does not contain 'api' field: ${yamlFile}"
             }
 
-            // Write the updated YAML text back to the file
-            writeFile file: yamlFile, text: yamlText
+            // Convert the updated YAML structure back to text and write it to the file
+            def updatedYamlText = writeYaml data: yaml
+            writeFile file: yamlFile, text: updatedYamlText
             echo "YAML file updated: ${yamlFile}"
         } else {
             echo "YAML file does not exist: ${yamlFile}"
         }
     }
 }
+
 
 
 
