@@ -177,14 +177,14 @@ if (yamlFiles.size() == 0) {
         def yamlFile = file.path
         echo "Processing YAML file: ${yamlFile}"
         if (fileExists(yamlFile)) {
-            def yaml = readYaml file: yamlFile // Parse YAML content to a structured object
+            def yaml = readYaml file: yamlFile // Read the existing YAML file into a structured object
 
             // Update the 'azure.vault.common' field if it exists
             if (yaml.azure?.vault?.common) {
                 def commonList = yaml.azure.vault.common.split(';').collect { it.trim() }
                 println("commonList: " + commonList)
 
-                // Add nonprodmaskingproperties conditionally for non-prod files
+                // Append new values conditionally
                 if (!commonList.contains('nonprodmaskingproperties') && !yamlFile.endsWith('config-prod.yaml')) {
                     commonList.add('nonprodmaskingproperties')
                 }
@@ -192,20 +192,20 @@ if (yamlFiles.size() == 0) {
                     commonList.add('maskingproperties')
                 }
 
-                // Update common values
+                // Update the common field in the YAML structure
                 yaml.azure.vault.common = commonList.join(';')
             } else {
                 echo "YAML file does not contain 'azure.vault.common' field: ${yamlFile}"
             }
 
-            // Add key-value pair under 'api' if it doesn't exist
-            yaml.api = yaml.api ?: [:] // Ensure 'api' exists as a map
+            // Append a new key-value pair under 'api'
+            yaml.api = yaml.api ?: [:]  // Ensure 'api' section exists
             if (!yaml.api.containsKey('place')) {
-                yaml.api['place'] = 'Bangalore'
+                yaml.api['place'] = 'Bangalore'  // Add the 'place' field to 'api'
                 echo "'place' key added under 'api' in file: ${yamlFile}"
             }
 
-            // Write the modified YAML object back to the file
+            // Write the updated YAML object back to the file (appending changes)
             writeYaml file: yamlFile, data: yaml
             echo "YAML file updated: ${yamlFile}"
         } else {
