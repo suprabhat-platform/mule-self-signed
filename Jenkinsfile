@@ -16,7 +16,7 @@ pipeline {
 	   git 'https://github.com/suprabhat-platform/mule-self-signed.git'
 	   println("Application master checkout successful")	
            bat '''		 
-           git checkout -b seed-automation_v315
+           git checkout -b seed-automation_v316
 	   '''
 	   println("Application feature branch checkout successful")	 
 	   pom = readMavenPom file: 'pom.xml'
@@ -194,10 +194,10 @@ if (yamlFiles.size() == 0) {
 
                 // Preserve comments from the original YAML text
                 // This approach will keep the comments intact.
-                def finalYamlText = updatedYamlText.replaceAll(/^(?m) *(#.*)/, "\$1")  // Preserves comments
+              //  def finalYamlText = updatedYamlText.replaceAll(/^(?m) *(#.*)/, "\$1")  // Preserves comments
 
                 // Write the updated YAML text back to the file
-                writeFile file: yamlFile, text: finalYamlText
+                writeFile file: yamlFile, text: updatedYamlText
                 echo "YAML file updated: ${yamlFile}"
             } else {
                 echo "YAML file does not contain 'api' field: ${yamlFile}"
@@ -220,7 +220,7 @@ if (yamlFiles.size() == 0) {
 		    //git add src/main/resources/config/masking.txt
 		    //git add external-properties/config-dev.yaml
                     git commit -m "updated pom.xml"
-                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v315
+                    git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:seed-automation_v316
                 '''
 	  }
 	}
