@@ -1,8 +1,7 @@
-#This is the Dev file
 api:
-  name: "mule-self-signed"
+  name: mule-self-signed
   id: '123'
-
+  place: Bangalore
 azure:
   vault:
-    common: "nonprodsalesforceproperties;nonprodcommonproperties" 
+    common: nonprodsalesforceproperties;nonprodcommonproperties
