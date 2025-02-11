@@ -4,13 +4,13 @@ pipeline {
 
   stages {
 
-    stage('Checkout Source') {
-      steps {
-	   println("Application checkout successful")
-           git 'https://github.com/suprabhat-platform/mule-self-signed.git'
-	   println("Application checkout successful")
-      }
+stage('Checkout Source') {
+    steps {
+        println("Starting application checkout")
+        git branch: 'main', url: 'https://github.com/suprabhat-platform/mule-self-signed.git'
+        println("Application checkout successful")
     }
+}
 
  stage('Build Application') {
       steps{
