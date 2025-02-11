@@ -16,7 +16,7 @@ stage('Checkout Source') {
       steps{
         script {
 	        println("Application build started")
-                bat 'mvn clean package -X'
+                bat 'mvn clean package'
 		println("Application build successful")
         }
       }
