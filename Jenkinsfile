@@ -16,7 +16,7 @@ pipeline {
       steps{
         script {
 	        println("Application build started")
-                bat 'mvn clean package'
+                bat 'mvn clean package -X'
 		println("Application build successful")
         }
       }
