@@ -1,4 +1,4 @@
-FROM suprabhatcs/mule-runtime-amc-4.4.0
+FROM suprabhatcs/mule-runtime-4.4.0
 
 # Mule installation:
 ENV MULE_VERSION=4.4.0
