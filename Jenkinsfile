@@ -23,7 +23,7 @@ stage('Checkout Source') {
     }	  
     stage('Build image and Publish to DockerHub') {
     environment {
-    DOCKER_IMAGE = "suprabhatcs/dockermule:${BUILD_NUMBER}"
+    DOCKER_IMAGE = "suprabhatcs/mule-test-app:${BUILD_NUMBER}"
     registryCredential = 'dockerhub-credentials'
      }
       steps{
