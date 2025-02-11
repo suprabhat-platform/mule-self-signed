@@ -32,8 +32,8 @@ VOLUME $MULE_HOME/logs
 #RUN $MULE_HOME/bin/mule -installLicense $MULE_HOME/conf/muleLicenseKey.lic
 
 #Check if Mule Licence installed
-RUN ls -ltr $MULE_HOME/conf/
-CMD echo "------ Licence installed ! --------"
+#RUN ls -ltr $MULE_HOME/conf/
+#CMD echo "------ Licence installed ! --------"
 
 #Copy and deploy mule application in runtime
 CMD echo "------ Deploying mule application in runtime ! --------"
