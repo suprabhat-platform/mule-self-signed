@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: mule-test-app
-        image: suprabhatcs/mule-test-app:104
+        image: suprabhatcs/mule-test-app:473
         ports:
         - containerPort: 8081
