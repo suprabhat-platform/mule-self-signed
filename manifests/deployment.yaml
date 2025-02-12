@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mule-test-app-deployment
+  namespace: 60486a51-7039-4f45-b1be-a0069c86f864
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mule-test-app
+  template:
+    metadata:
+      labels:
+        app: mule-test-app
+    spec:
+      containers:
+      - name: mule-test-app
+        image: suprabhatcs/mule-test-app:104
+        ports:
+        - containerPort: 8081
